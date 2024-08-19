@@ -51,7 +51,7 @@ function loadshitGen() {
 	
 }
 
-function loadshitgpt() {
+function loadshitGPT() {
 
 	//attention
 	key = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,0,wi);
