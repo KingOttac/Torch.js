@@ -103,3 +103,9 @@ function concatenate(ARR) {
 	return ra;
 	
 }//combines rows of 2d array into 1d array
+
+function CA(ARR,obj) {
+	
+	return ARR.slice(0);
+	
+}//prevents fucking awful javascript auto-pointers (copy array)
