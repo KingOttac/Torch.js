@@ -90,9 +90,3 @@ function getrandin(ARR,low,top,checksum) {
 	}//number in between low and randr
 	
 }
-
-function CA(ARR,obj) {
-	
-	return ARR.slice(0);
-	
-}//prevents fucking awful javascript auto-pointers (copy array)
