@@ -1,5 +1,7 @@
 //network specific
 
+//  /X\ indicates it changes function name- need docs
+
 //ADJUSTABLES
 //linear
 let wi = 1;//weight initialization values
@@ -97,7 +99,7 @@ function keyPressed() {
 function runexample() {
 //load some data
 		
-	let netarr = runlinear(/*data*/);
+	let netarr = /*run/model\(data)*/;
 	let totalcost = 0;
 	for (a = 0; a < netarr.length; a++) {
 		if (netarr[a][0] != label) {
