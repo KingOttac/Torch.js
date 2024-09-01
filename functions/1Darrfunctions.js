@@ -21,14 +21,15 @@ function softmax(ARR) {
 	let exsum = 0;
 	let arrtoreturn = [];
 	for (g = 0; g < ARR.length; g++) {
-		exsum += pow(ARR[g]/smtemperature,2);
+		exsum += pow(e,ARR[g]/smtemperature);
+		print(pow(e,ARR[g]/smtemperature))
 	}
 	for (g = 0; g < ARR.length; g++) {
-		arrtoreturn[g] = pow(ARR[g]/smtemperature,2)/exsum;
+		arrtoreturn[g] = pow(e,ARR[g]/smtemperature)/exsum;
 	}
 	return arrtoreturn;
 	
-}//one dimension arr returned
+}
 
 function Bsort(ARR,sourceARR,softmaxb,highlow,byprop,prop) {
 	
