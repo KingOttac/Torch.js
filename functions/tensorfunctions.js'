@@ -77,8 +77,7 @@ function shapenet(shapeARR,specific,dim,sizing,fill,ifrand,randl,randh,ifroundra
 		totalshape = transpose([totalshape])
 	}
 	for (gsn = 0; gsn < totalshape.length; gsn++) {
-		rasn[gsn] = maketensor(dim,[totalshape[gsn][0],totalshape[gsn][1],],
-													 fill,ifrand,randl,randh,ifroundrand,ascending);
+		rasn[gsn] = maketensor(dim,[totalshape[gsn][0],totalshape[gsn][1]],fill,ifrand,randl,randh,ifroundrand,ascending);
 	}
 	return rasn;
 	
