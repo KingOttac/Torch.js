@@ -86,7 +86,7 @@ function runGPT(last) {
 	
 }//takes in previous tokens as numbers
 
-function runlinear(input,qlayers,sorted,allweights,allbiases,outputarr) {
+function runlinear(input,qlayers,sorted,allweights,allbiases) {
 	
 	function linear(ARR,weightsarr,biasesarr) {
 
@@ -100,15 +100,18 @@ function runlinear(input,qlayers,sorted,allweights,allbiases,outputarr) {
 	}//takes in 1d array and returns one transform with weights from layer + bias
 
 	let nsra = [];
-	nsra[0] = input;//non activated network for later training purposes
+	nsra[0] = input;
+	let ra = input;
 	for (a = 0; a < qlayers; a++) {
-		nsra[a+1] = linear(activate(CA(nsra[a])),allweights[a],allbiases[a]);
+		nsra[a+1] = linear(ra,allweights[a],allbiases[a]);
+		ra = activate(nsra[a+1])
 	}
 	if (sorted == true) {
-		return [Bsort(activate(CA(nsra[qlayers-1])),outputarr,false),nsra];
+		return [Bsort(ra,outputarr),nsra];
 	}
 	else {
-		return [activate(CA(nsra[qlayers-1])),nsra];
+		return [ra,nsra];
 	}
 
-}//takes in parameters for layers (corr to weights), returns unchanged final layer as output
+}//takes in parameters for layers (corr to weights), if sorted, input 
+//returns an array of [output , each layer unactivated arr]
