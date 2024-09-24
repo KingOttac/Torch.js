@@ -48,41 +48,54 @@ function runGen(input,sorted,iid,outputarr,allnetworks) {
 	
 }
 
-function runGPT(last) {
+function runGPT(input) {
 
 	//multihead self attention
-	let adjvalue = CA(encoders[last[last.length-1]]);
+	let last = [];
+	for (ll = 0; ll < input.length; ll++) {
+		last[ll] = CA(encoders[input[ll]])
+	}//sets up encoders of last
 	neuronstore = maketensor(3,[layers],0);//init
 	for (ll = 0; ll < layers; ll++) {
-		let flowingvalues = [];//initialize
-		
 		//multihead self attention
+		let fval = maketensor(3,[heads,learningset,encodesize],0);
 		for (hh = 0; hh < heads; hh++) {
-			let normtensor = maketensor(1,[learningset],0);//init
-			let qdot = matrixmult([CA(encoders[last[last.length-1]])],CA(query[ll][hh]));//gets query vec with matrix
+			let normtensor = tril(maketensor(2,[learningset,learningset],0),-INF);//init- [query][key]
 			for (b = 0; b < learningset; b++) {
-				let encoded = add2d([CA(encoders[last[b]])],[maketensor(1,[encodesize],positioners(b+1))]);//encode position into word vec
-				let kdot = matrixmult(encoded,CA(key[ll][hh]));//gets corresponding key vec with matrix
-				normtensor[b] = matrixmult(qdot,transpose(kdot))[0][0]/sqrt(querykeydim);//find vec association and scale (basically dot product)
-			}//multiply one query with all input based keys
-			normtensor = softmax(normtensor);//softmax vector associations
+				let qdot = matrixmult([CA(last[b])],CA(query[ll][hh]));//gets query vec with matrix
+				for (c = 0; c < learningset; c++) {
+					if (normtensor[b][c] == -INF) {
+						break;
+					}//mask rest of row
+					let encoded = add2d([CA(last[c])],[maketensor(1,[encodesize],positioners(c+1))]);//encode position into word vec
+					let kdot = matrixmult(encoded,CA(key[ll][hh]));//gets corresponding key vec with matrix
+					normtensor[b][c] = matrixmult(qdot,transpose(kdot))[0][0]/sqrt(querykeydim);//find vec association and scale (basically dot product)
+				}
+			}//dot all queries with all input based keys
+			for (b = 0; b < learningset; b++) {
+				normtensor[b] = softmax(normtensor[b]);//softmax vector associations
+			}//softmax normtensor rows
 			for (a = 0; a < learningset; a++) {
 				//get vector shift with scaled value vec
-				let curval = matrixmult([CA(encoders[last[a]])],valuedown[ll][hh]);//use value matrix to get adjustment (down: [qkdim])
-				curval = matrixmult(curval,valueup[ll][hh]);//use value matrix to get adjustment (back up to [encode])
-				flowingvalues[hh] = mult2d(curval,[maketensor(1,[encodesize],normtensor[a])])[0];//scale by normtensor and add to flow
-			}//update desired changes array
-		}
-		flowingvalues = concatenate(flowingvalues);
+				let curval = matrixmult([CA(last[a])],CA(valuedown[ll][hh]));//valuedown*key encode gives (down: [qkdim])
+				curval = matrixmult(curval,CA(valueup[ll][hh]))[0];//valueup*curval gives (back up to [encode])
+				for (b = 0; b < learningset; b++) {
+					fval[hh][a] = add2d([CA(fval[hh][a])],mult2d([CA(curval)],maketensor(2,[1,encodesize],normtensor[a][b])))[0];
+				}
+			}//update desired changes to last
+		}//perform attention
+		for (hh = 0; hh < heads; hh++) {
+			last = add2d(last,fval[hh]);
+		}//edit last
 		
 		//feed forward network
-		let linout = runlinear(flowingvalues,ffnlayers,false,weights[ll],biases[ll]);//gets neuron arrangement[1] and new output flow values[0]
-		adjvalue = normalize(add2d([adjvalue],[linout[0]])[0],wi);//add and normalize
-		neuronstore[ll] = linout[1];//storage for later training
+		for (hh = 0; hh < learningset; hh++) {
+			let linout = runlinear(CA(last[hh]),ffnlayers+1,false,weights[ll],biases[ll])//gets neuron arrangement[1] and new output flow values[0]
+			last[hh] = normalize(add2d([last[hh]],[linout[0]])[0],wi);//add and normalize
+		}
 	}//multilayer gpt oh yeah
 	
-	let finaldot = matrixmult([adjvalue],transpose(encoders))[0];//[0] is just to lower dimension
-	return finaldot;
+	return matrixmult([last[last.length-1]],transpose(encoders))[0];//[0] is just to lower dimension
 	
 }//takes in previous tokens as numbers
 
