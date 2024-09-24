@@ -47,12 +47,6 @@ let lines;
 let e = 2.718281828459045;
 let pi = 3.14159265358979;
 
-function screeninfo(totalcost,label,data,netarr) {
-	
-	//write some stuff for screen
-	
-}
-
 function preload() {
 	//get some file info
 }
@@ -62,14 +56,15 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 	background(0);
 	textAlign(CENTER);
-	text(windowWidth/2,windowHeight/2,
-	     "Welcome to Torch.js."+
-		 "\nThis is currently being loaded from the default setup() function."+
-		 "\nPlease go to editable.js to implement code");
+	fill(255);
+	textSize(30)
+	text("Welcome to Torch.js." +
+		 "\nThis is currently being loaded from the default setup() function." +
+		 "\nPlease edit main.js to implement code",windowWidth/2,windowHeight/2.3);
 	
 	//load some data
 
-	//loadshit /something\ ();
+	//loadshit/modeltype\();
 	
 }
 
@@ -89,17 +84,23 @@ function keyReleased() {
 function keyPressed() {
 	
 	if (keyCode == SHIFT) {
-		//call training
+		//train/modeltype\();
 	}
 	
   return false;
 
 }//train with holding shift
 
+function screeninfo(totalcost,label,data,netarr) {
+	
+	//write some stuff for screen
+	
+}
+
 function runexample() {
 //load some data
 		
-	let netarr = /*run/model\(data)*/;
+	//let netarr = run/model\(data);
 	let totalcost = 0;
 	for (a = 0; a < netarr.length; a++) {
 		if (netarr[a][0] != label) {
@@ -111,11 +112,12 @@ function runexample() {
 			costpertoken[layers][netarr[a][0]] += correctness*(1-netarr[a][1]);
 		}
 	}//costcalc
-	screeninfo(/*totalcost,label,data,netarr*/)//draw stuff
+	/*screeninfo(totalcost,label,data,netarr)*/
 
 	return /*variable*/
 
 }
+
 function getNetGuess() {
 	
 	//load some data for the network from user
