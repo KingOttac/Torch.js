@@ -90,6 +90,7 @@ function runGPT(input) {
 		
 		//feed forward network
 		for (hh = 0; hh < learningset; hh++) {
+			last[hh] = normalize(last[hh],wi);
 			let linout = runlinear(CA(last[hh]),ffnlayers+1,false,weights[ll],biases[ll])//gets neuron arrangement[1] and new output flow values[0]
 			last[hh] = normalize(add2d([last[hh]],[linout[0]])[0],wi);//add and normalize
 		}
