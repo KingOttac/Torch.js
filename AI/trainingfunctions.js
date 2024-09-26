@@ -71,60 +71,50 @@ function trainGen() {
 	
 }
 
-function adamW(parr,p0,p1,p2,p3,pv,alpha,b1,b2,epsilon) {
-
-	let cc = correctcheck[pv][p0][p1][p2][p3];
-	if (abs(cc[cc.length-2]-cc[cc.length-1]) >= convthresh) {
-		//move in from array
-		let mtin = mt[pv][p0][p1][p2][p3];
-		let vtin = vt[pv][p0][p1][p2][p3];
-		let tspin = tsp[pv][p0][p1][p2][p3];
+function trainGPT() {
 		
-		//calculate vec adjust
-		tspin++;
-		let randomspot = rr(learningset,convertedlines.length);
-		let rereturn = runexample(randomspot);
-		let gtin = cc[cc.length-1]-rereturn;
-		mtin = b1*mtin + (1-b1)*gtin;//get first vec change
-		vtin = b2*vtin + (1-b2)*pow(gtin,2);//get second vec change
-		if (pv == 5) {
-			parr[p0][p1][p2] -= alpha*(mtin/(1-pow(b1,tspin)))/(sqrt(vtin/(1-pow(b2,tspin))) + epsilon);
-		}//bias changes
-		else {
-			parr[p0][p1][p2][p3] -= alpha*(mtin/(1-pow(b1,tspin)))/(sqrt(vtin/(1-pow(b2,tspin))) + epsilon);
-		}//everything else
-		
-		//move back changed values
-		mt[pv][p0][p1][p2][p3] = mtin;
-		vt[pv][p0][p1][p2][p3] = vtin;
-		tsp[pv][p0][p1][p2][p3] = tspin;
-		correctcheck[pv][p0][p1][p2][p3][cc.length] = rereturn;
-	}//vector adjustment
+	//vector case
+	let llt = rr(0,layers);
+	let hht = rr(0,heads);
+	let bt = rr(0,encodesize);
+	let ct = rr(0,querykeydim);
 	
-}
-
-function trainGPT(alpha,b1,b2,epsilon) {
+	//weight case
+	let hhtw = rr(0,ffnlayers);
+	let btw = rr(0,weights[llt][hhtw].length);
+	let ctw = rr(0,weights[llt][hhtw][btw].length);
 	
-	for (llt = 0; llt < layers; llt++) {
-		for (hht = 0; hht < heads; hht++) {
-			for (bt = 0; bt < encodesize; bt++) {
-				for (ct = 0; ct < querykeydim; ct++) {
-					adamW(key,llt,hht,bt,ct,0);
-					adamW(query,llt,hht,bt,ct,1);
-					adamW(valuedown,llt,hht,bt,ct,2);
-					adamW(valueup,llt,hht,ct,bt,3);
-				}
-			}
-		}//k,q,v
-		for (hht = 0; hht < ffnlayers; hht++) {
-			for (bt = 0; bt < weights[llt][hht].length; bt++) {
-				for (ct = 0; ct < weights[llt][hht][bt].length; ct++) {
-					adamW(weights,llt,hht,bt,ct,4);
-				}
-				adamW(biases,llt,hht,bt,0,5)
-			}
-		}//weights,biases
-	}//random adjustments by alpha
+	//bias case
+	let btb = rr(0,biases[llt][hhtw].length);
+	
+	//encode case
+	let llte = rr(0,tokens.length);
+	let hhte = rr(0,encodesize);
+	
+	//adjust random parameter
+	switch(rr(0,7)) {
+		case 0:
+			key[llt][hht][bt][ct] += adamW(llt,hht,bt,ct,0);
+		break;
+		case 1:
+			query[llt][hht][bt][ct] += adamW(llt,hht,bt,ct,0);
+		break;
+		case 2:
+			valuedown[llt][hht][bt][ct] += adamW(llt,hht,bt,ct,0);
+		break;
+		case 3:
+			valueup[llt][hht][ct][bt] += adamW(llt,hht,ct,bt,0);
+		break;
+		case 4:
+			weights[llt][hhtw][btw][ctw] += adamW(llt,hhtw,btw,ctw,0);
+		break;
+		case 5:
+			biases[llt][hhtw][btb] += adamW(llt,hhtw,btb,0,5);
+		break;
+		case 6:
+			encoders[llte][hhte] += adamW(llt,hhte,0,0,6);
+		break;
+	}
 	
 }
 
