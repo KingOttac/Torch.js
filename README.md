@@ -10,6 +10,4 @@ A javascript PyTorch recreation.
   1. trainGen
   2. runGen
   3. loadshitGen
-  4. trainGPT
-  5. loadshitGPT
-  6. runGPT
+  4. adamW
