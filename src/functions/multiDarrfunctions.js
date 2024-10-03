@@ -109,3 +109,28 @@ function CA(ARR,obj) {
 	return ARR.slice(0);
 	
 }//prevents fucking awful javascript auto-pointers (copy array)
+
+function dimen(assign,arr,pv,val,dst) {
+	if (assign == true) {
+		if (dst == 2) {
+			arr[p0][p1] = val;
+		}//encoder changes
+		else if (dst == 3) {
+			arr[p0][p1][p2] = val;
+		}//bias changes
+		else if (dst == 4) {
+			arr[p0][p1][p2][p3] = val;
+		}//key, query, valdown, valup, weights
+	}
+	else {
+		if (dst == 2) {
+			return arr[p0][p1];
+		}//encoder changes
+		else if (dst == 3) {
+			return arr[p0][p1][p2];
+		}//bias changes
+		else if (dst == 4) {
+			return arr[p0][p1][p2][p3];
+		}//key, query, valdown, valup, weights
+	}
+}//different dimensional arrays- assign: set to or return
