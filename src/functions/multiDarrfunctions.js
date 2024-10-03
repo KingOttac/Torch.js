@@ -110,27 +110,45 @@ function CA(ARR,obj) {
 	
 }//prevents fucking awful javascript auto-pointers (copy array)
 
-function dimen(assign,arr,pv,val,dst) {
+function dimen(assign,arr,dst,val) {
 	if (assign == true) {
-		if (dst == 2) {
+		if (dst == 1) {
+			arr[p0] = val;
+		}//1D
+		else if (dst == 2) {
 			arr[p0][p1] = val;
-		}//encoder changes
+		}//2D
 		else if (dst == 3) {
 			arr[p0][p1][p2] = val;
-		}//bias changes
+		}//3D
 		else if (dst == 4) {
 			arr[p0][p1][p2][p3] = val;
-		}//key, query, valdown, valup, weights
+		}//4D
+		else if (dst == 5) {
+			arr[p0][p1][p2][p3][p4] = val;
+		}//5D
+		else if (dst == 6) {
+			arr[p0][p1][p2][p3][p4][p5] = val;
+		}//6D
 	}
 	else {
-		if (dst == 2) {
+		if (dst == 1) {
+			return arr[p0];
+		}//1D
+		else if (dst == 2) {
 			return arr[p0][p1];
-		}//encoder changes
+		}//2D
 		else if (dst == 3) {
 			return arr[p0][p1][p2];
-		}//bias changes
+		}//3D
 		else if (dst == 4) {
 			return arr[p0][p1][p2][p3];
-		}//key, query, valdown, valup, weights
+		}//4D
+		else if (dst == 5) {
+			return arr[p0][p1][p2][p3][p4];
+		}//5D
+		else if (dst == 6) {
+			return arr[p0][p1][p2][p3][p4][p5];
+		}//6D
 	}
 }//different dimensional arrays- assign: set to or return
