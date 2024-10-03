@@ -110,13 +110,14 @@ function CA(ARR,obj) {
 	
 }//prevents fucking awful javascript auto-pointers (copy array)
 
-function dimen(assign,arr,dst,parr,val) {
+function dimen(assign,arr,parr,val) {
 	let p0 = parr[0];
 	let p1 = parr[1];
 	let p2 = parr[2];
 	let p3 = parr[3];
 	let p4 = parr[4];
 	let p5 = parr[5];
+	let dst = parr.length;
 	if (assign == true) {
 		if (dst == 1) {
 			arr[p0] = val;
