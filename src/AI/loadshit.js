@@ -65,30 +65,39 @@ function loadshitGen() {
 function loadshitGPT() {
 
 	//attention
-	key = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,0,wi);
-	query = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,0,wi);
-	valuedown = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,0,wi);
-	valueup = maketensor(4,[layers,heads,querykeydim,encodesize],0,true,0,wi);
+	key = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
+	query = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
+	valuedown = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
+	valueup = maketensor(4,[layers,heads,querykeydim,encodesize],0,true,-wi,wi);
+	
+	//ffn
+	inputsize = encodesize;
+	hiddensize = 4*encodesize;
+	outputsize = encodesize;
+	weights = maketensor(1,[layers],shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,0,true,-wi,wi));
+	biases = maketensor(1,[layers],shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi));
 	
 	//unchanging
 	returns = maketensor(1,[learningset],untoken("\n"));
-	encoders = maketensor(2,[tokens.length,encodesize],0,true,0,wi);
-	
-	//ffn
-	let ffnfill = 
-	shapenet([[heads*encodesize,heads*encodesize],[heads*encodesize,heads*encodesize],[heads*encodesize,encodesize]],
-					 false,2,ffnlayers-2,0,true,0,wi);
-	weights = maketensor(1,[layers],ffnfill);
-	let ffnbias = 
-	shapenet([heads*encodesize,heads*encodesize,encodesize],false,1,ffnlayers-2,0,true,0,wi);
-	biases = maketensor(1,[layers],ffnbias);
+	encoders = maketensor(2,[tokens.length,encodesize],0,true,-wi,wi);
 	
 	//training
-	let axm = max(heads,ffnlayers);
-	mt = maketensor(5,[6,layers,axm,heads*encodesize,heads*encodesize],0);
-	vt = maketensor(5,[6,layers,axm,heads*encodesize,heads*encodesize],0);
-	tsp = maketensor(5,[6,layers,axm,heads*encodesize,heads*encodesize],0);
-	correctcheck = maketensor(5,[6,layers,axm,heads*encodesize,heads*encodesize],[4,2]);
+	dsties = [4,4,4,4,4,3,2];//sorting- key, query, valuedown, valueup, weights, biases, encoders
+	function filler(fv) {
+		return [
+			maketensor(4,[layers,heads,encodesize,querykeydim],fv),
+			maketensor(4,[layers,heads,encodesize,querykeydim],fv),
+			maketensor(4,[layers,heads,encodesize,querykeydim],fv),
+			maketensor(4,[layers,heads,querykeydim,encodesize],fv),
+			maketensor(1,[layers],shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,fv)),
+			maketensor(1,[layers],shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,fv)),
+			maketensor(2,[tokens.length,encodesize],fv)
+		];
+	}
+	mt = filler(0);
+	vt = filler(0);
+	tsp = filler(0);
+	cc = maketensor(1,[convertedlines.length-learningset],2);
 
 }
 
