@@ -92,27 +92,28 @@ function trainGPT() {
 	let hhte = rr(0,encodesize);
 	
 	//adjust random parameter
-	switch(rr(0,7)) {
+	let pv = rr(0,7);
+	switch(pv) {
 		case 0:
-			key[llt][hht][bt][ct] += adamW(llt,hht,bt,ct,0);
+			key[llt][hht][bt][ct] += adamW([pv,llt,hht,bt,ct]);
 		break;
 		case 1:
-			query[llt][hht][bt][ct] += adamW(llt,hht,bt,ct,0);
+			query[llt][hht][bt][ct] += adamW([pv,llt,hht,bt,ct]);
 		break;
 		case 2:
-			valuedown[llt][hht][bt][ct] += adamW(llt,hht,bt,ct,0);
+			valuedown[llt][hht][bt][ct] += adamW([pv,llt,hht,bt,ct]);
 		break;
 		case 3:
-			valueup[llt][hht][ct][bt] += adamW(llt,hht,ct,bt,0);
+			valueup[llt][hht][ct][bt] += adamW([pv,llt,hht,ct,bt]);
 		break;
 		case 4:
-			weights[llt][hhtw][btw][ctw] += adamW(llt,hhtw,btw,ctw,0);
+			weights[llt][hhtw][btw][ctw] += adamW([pv,llt,hhtw,btw,ctw]);
 		break;
 		case 5:
-			biases[llt][hhtw][btb] += adamW(llt,hhtw,btb,0,5);
+			biases[llt][hhtw][btb] += adamW([pv,llt,hhtw,btb]);
 		break;
 		case 6:
-			encoders[llte][hhte] += adamW(llt,hhte,0,0,6);
+			encoders[llte][hhte] += adamW([pv,llte,hhte]);
 		break;
 	}
 	
