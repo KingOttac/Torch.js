@@ -158,4 +158,4 @@ function dimen(assign,arr,parr,val) {
 			return arr[p0][p1][p2][p3][p4][p5];
 		}//6D
 	}
-}//different dimensional arrays- assign: set to or return
+}//different dimensional arrays- assign: bool- t:assign or f:return
