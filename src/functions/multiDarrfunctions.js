@@ -108,7 +108,7 @@ function CA(ARR,obj) {
 	
 	return ARR.slice(0);
 	
-}//prevents fucking awful javascript auto-pointers (copy array)
+}//prevents awful javascript auto-pointers (copy array)
 
 function dimen(assign,arr,parr,val) {
 	let p0 = parr[0];
