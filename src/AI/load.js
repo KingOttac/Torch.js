@@ -26,7 +26,7 @@ let costarr = [];
 let scores = [];//generation scores
 let currentbest = 0;
 
-function loadshitlinear() {
+function loadlinear() {
 	
 	weights = maketensor(3,[layers,hiddensize,hiddensize],0,true,-1*wi,wi);
 	weights[0] = maketensor(2,[encodesize,hiddensize],0,true,-1*wi,wi);
@@ -36,7 +36,7 @@ function loadshitlinear() {
 	
 }
 
-function loadshitGen() {
+function loadGen() {
 	
 	scores = maketensor(1,[iterations],0);//updated in draw
 	neuronstore = maketensor(2,[iterations,2],[]);
@@ -62,7 +62,7 @@ function loadshitGen() {
 	
 }
 
-function loadshitGPT() {
+function loadGPT() {
 
 	//attention
 	key = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
@@ -100,7 +100,7 @@ function loadshitGPT() {
 
 }
 
-function loadshitlinear() {
+function loadlinear() {
 
 	weights = maketensor(3,[layers,hiddensize,hiddensize],0,true,-wi,wi);
 	weights[0] = maketensor(2,[encodesize,hiddensize],0,true,-wi,wi);
