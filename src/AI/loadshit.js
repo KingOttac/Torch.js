@@ -69,6 +69,7 @@ function loadshitGPT() {
 	query = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
 	valuedown = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
 	valueup = maketensor(4,[layers,heads,querykeydim,encodesize],0,true,-wi,wi);
+	encoders = maketensor(2,[tokens.length,encodesize],0,true,-wi,wi);
 	
 	//ffn
 	inputsize = encodesize;
@@ -79,10 +80,8 @@ function loadshitGPT() {
 	
 	//unchanging
 	returns = maketensor(1,[learningset],untoken("\n"));
-	encoders = maketensor(2,[tokens.length,encodesize],0,true,-wi,wi);
 	
 	//training
-	dsties = [4,4,4,4,4,3,2];//sorting- key, query, valuedown, valueup, weights, biases, encoders
 	function filler(fv) {
 		return [
 			maketensor(4,[layers,heads,encodesize,querykeydim],fv),
@@ -96,7 +95,8 @@ function loadshitGPT() {
 	}
 	mt = filler(0);
 	vt = filler(0);
-	tsp = filler(0);
+	tsp = 0;
+	params = [key,query,valuedown,valueup,weights,biases,encoders];
 
 }
 
