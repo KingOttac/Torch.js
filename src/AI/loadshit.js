@@ -97,7 +97,6 @@ function loadshitGPT() {
 	mt = filler(0);
 	vt = filler(0);
 	tsp = filler(0);
-	cc = maketensor(1,[convertedlines.length-learningset],2);
 
 }
 
