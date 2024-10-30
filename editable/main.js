@@ -6,8 +6,8 @@
 //linear
 let wi = 1;//weight initialization values
 let layers = 0;//hidden layers
-let hiddensize = 0;//maximum hidden layer size
 let inputsize = 0;//max input size
+let hiddensize = 0;//maximum hidden layer size
 let outputsize = 0;//max output size
 let addbias = false;//add bias values to network
 
