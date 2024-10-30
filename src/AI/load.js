@@ -1,5 +1,3 @@
-//network consts
-
 //gpt
 let costpertoken = [];//assigned by neuron number, represents derivative of cost function
 let convertedlines = [];//giant array for dataset
