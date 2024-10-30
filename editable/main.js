@@ -4,8 +4,6 @@
 
 //ADJUSTABLES
 //linear
-let wi = 1;//weight initialization values
-let layers = 0;//hidden layers
 let inputsize = 0;//max input size
 let hiddensize = 0;//maximum hidden layer size
 let outputsize = 0;//max output size
@@ -36,6 +34,8 @@ let iterations = 0;//models on screen
 let timealive = 0;//how long each training epoch lasts
 
 //general
+let wi = 1;//weight initialization values
+let layers = 0;//hidden layers
 let trialspersesh = 0;//various uses, used for averaging results
 let learningrate = 0.5;//velocity of training adjustments
 let type = "sigmoid";//type of activation function (sigmoid,RELU,GELU)
