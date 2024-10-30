@@ -1,20 +1,18 @@
 //gpt
-let costpertoken = [];//assigned by neuron number, represents derivative of cost function
 let convertedlines = [];//giant array for dataset
 let encoders = [];//vectors to encode tokens
-let decoders = [];//vectors to decode tokens
 let key = [];
 let query = [];
 let value = [];
-let returns = [];
 let tokens = [];
 //gpt train
 let mt = [];
 let vt = [];
-let tsp = [];
-let correctcheck = [];
+let params = [];
+let tsp = 0;
 
 //linear
+let costpertoken = [];//assigned by neuron number, represents derivative of cost function
 let neuronstore = [];
 let weights = [];
 let biases = [];
