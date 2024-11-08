@@ -175,22 +175,23 @@ function opxd(oper,ARR1,ARR2) {
 	function getfill(parr) {
 		
 		if (oper === "add") {
-			dimen(true,ARR1,parr,dimen(false,ARR1,parr)+dimen(false,ARR1,parr));
+			dimen(true,ARR1,parr,dimen(false,ARR1,parr)+dimen(false,ARR2,parr));
 			return;
 		}
 		else if (oper === "sub") {
-			dimen(true,ARR1,parr,dimen(false,ARR1,parr)-dimen(false,ARR1,parr));
+			dimen(true,ARR1,parr,dimen(false,ARR1,parr)-dimen(false,ARR2,parr));
 			return;
 		}
 		else if (oper === "mult") {
-			dimen(true,ARR1,parr,dimen(false,ARR1,parr)*dimen(false,ARR1,parr));
+			dimen(true,ARR1,parr,dimen(false,ARR1,parr)*dimen(false,ARR2,parr));
 			return;
 		}
 		else if (oper === "div") {
-			dimen(true,ARR1,parr,dimen(false,ARR1,parr)/dimen(false,ARR1,parr));
+			dimen(true,ARR1,parr,dimen(false,ARR1,parr)/dimen(false,ARR2,parr));
 			return;
 		}
 		
 	}
+	return ARR1;
 	
 }//adds two same size arrays
