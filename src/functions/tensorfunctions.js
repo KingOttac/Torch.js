@@ -132,3 +132,65 @@ function dimen(assign,arr,parr,val) {
 		}//6D
 	}
 }//different dimensional arrays- assign: bool- t:assign or f:return
+
+function opxd(oper,ARR1,ARR2) {
+	
+	let shapeARR = [ARR1.length];
+	for (ga = 0; ga < 6; ga++) {
+		if (dimen(false,ARR1,maketensor(1,[ga+2],0)) === undefined) {
+			break;
+		}
+		shapeARR[ga+1] = dimen(false,ARR1,maketensor(1,[ga+1],0)).length;
+	}
+	let dim = shapeARR.length;
+	for (g = 0; g < shapeARR[0] && dim > 0; g++) {
+		for (g1 = 0; g1 < shapeARR[1] && dim > 1; g1++) {
+			for (g2 = 0; g2 < shapeARR[2] && dim > 2; g2++) {
+				for (g3 = 0; g3 < shapeARR[3] && dim > 3; g3++) {
+					for (g4 = 0; g4 < shapeARR[4] && dim > 4; g4++) {
+						for (g5 = 0; g5 < shapeARR[5] && dim > 5; g5++) {
+							getfill([g,g1,g2,g3,g4,g5]);
+						}
+						if (dim == 5) {
+							getfill([g,g1,g2,g3,g4]);
+						}
+					}
+					if (dim == 4) {
+						getfill([g,g1,g2,g3]);
+					}
+				}
+				if (dim == 3) {
+					getfill([g,g1,g2]);
+				}
+			}
+			if (dim == 2) {
+				getfill([g,g1]);
+			}
+		}
+		if (dim == 1) {
+			getfill([g]);
+		}
+	}
+	
+	function getfill(parr) {
+		
+		if (oper === "add") {
+			dimen(true,ARR1,parr,dimen(false,ARR1,parr)+dimen(false,ARR1,parr));
+			return;
+		}
+		else if (oper === "sub") {
+			dimen(true,ARR1,parr,dimen(false,ARR1,parr)-dimen(false,ARR1,parr));
+			return;
+		}
+		else if (oper === "mult") {
+			dimen(true,ARR1,parr,dimen(false,ARR1,parr)*dimen(false,ARR1,parr));
+			return;
+		}
+		else if (oper === "div") {
+			dimen(true,ARR1,parr,dimen(false,ARR1,parr)/dimen(false,ARR1,parr));
+			return;
+		}
+		
+	}
+	
+}//adds two same size arrays
