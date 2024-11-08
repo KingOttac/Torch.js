@@ -100,18 +100,18 @@ function runGPT(input) {
 	
 }//takes in previous tokens as numbers
 
+function linear(ARR,weightsarr,biasesarr) {
+
+	let returnarr = matrixmult([ARR],weightsarr)[0];
+	if (addbias == true) {
+		returnarr = add2d([returnarr],[biasesarr])[0];
+	}
+
+	return returnarr;
+
+}//takes in 1d array and returns one transform with weights from layer + bias
+
 function runlinear(input,qlayers,sorted,allweights,allbiases) {
-	
-	function linear(ARR,weightsarr,biasesarr) {
-
-		let returnarr = matrixmult([ARR],weightsarr)[0];
-		if (addbias == true) {
-			returnarr = add2d([returnarr],[biasesarr])[0];
-		}
-
-		return returnarr;
-
-	}//takes in 1d array and returns one transform with weights from layer + bias
 
 	let nsra = [];
 	nsra[0] = input;
