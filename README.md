@@ -1,5 +1,5 @@
 # Torch.js
-A javascript PyTorch recreation.
+A JavaScript recreation of PyTorch.
 
 ## Information to know
 - All manipulatable variables are detailed in editable.js
