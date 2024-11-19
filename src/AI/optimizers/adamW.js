@@ -7,6 +7,6 @@ function adamW(parr,gtin,mtin,vtin,tspin) {
 	let vtv = vtin/(1-pow(b2,tspin));//second vec bias correct
 
 	//send back values
-	return [mtin,vtin,-alpha*mtv/(sqrt(vtv)+epsilon)];
+	return [mtin,vtin,alpha*mtv/(sqrt(vtv)+epsilon)];
 
 }//network consts
