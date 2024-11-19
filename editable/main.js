@@ -97,7 +97,7 @@ function screeninfo(totalcost,label,data,netarr) {
 	
 }
 
-function runexample() {
+function runexample(data,disp==true) {
 //load some data
 		
 	//let netarr = run/model\(data);
@@ -112,7 +112,10 @@ function runexample() {
 			costpertoken[layers][netarr[a][0]] += correctness*(1-netarr[a][1]);
 		}
 	}//costcalc
-	/*screeninfo(totalcost,label,data,netarr)*/
+	/*
+ 	if (disp == true) {
+ 		screeninfo(totalcost,label,data,netarr)
+   	}*/
 
 	return /*variable*/
 
