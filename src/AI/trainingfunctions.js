@@ -73,40 +73,100 @@ function trainGen() {
 
 function trainGPT() {
 	
-	tsp++;
+	//vector case
+	let llt = rr(0,layers);
+	let hht = rr(0,heads);
+	let bt = rr(0,encodesize);
+	let ct = rr(0,querykeydim);
+	
+	//weight case
+	let hhtw = rr(0,ffnlayers);
+	let btw = rr(0,weights[llt][hhtw].length);
+	let ctw = rr(0,weights[llt][hhtw][btw].length);
+	
+	//bias case
+	let btb = rr(0,biases[llt][hhtw].length);
+	
+	//encode case
+	let llte = rr(0,tokens.length);
+	let hhte = rr(0,encodesize);
+
+	//choose param set and init
+	let pxrand = rr(0,7);
+	let indexparrs = [
+		[pxrand,llt,hht,bt,ct],
+		[pxrand,llt,hht,bt,ct],
+		[pxrand,llt,hht,bt,ct],
+		[pxrand,llt,hht,ct,bt],
+		[pxrand,llt,hhtw,btw,ctw],
+		[pxrand,llt,hhtw,btb],
+		[pxrand,llt,hhte]
+	];
+	let tsp = 0;
+	let mt = 0;
+	let vt = 0;
+	
 	for (ee = 0; ee < epoch; ee++) {
-		for (bb = 0; bb < batch; bb++) {
-			let randin = rr(0,convertedlines.length)
-			let gcost = runexample(randin);
-			for (llt = 0; llt < layers; llt++) {
-				for (hht = 0; hht < heads; hht++) {
-					for (bt = 0; bt < encodesize; bt++) {
-						for (ct = 0; ct < querykeydim; ct++) {
-							key[llt][hht][bt][ct] += adamW([0,llt,hht,bt,ct],gcost);
-							query[llt][hht][bt][ct] += adamW([1,llt,hht,bt,ct],gcost);
-							valuedown[llt][hht][bt][ct] += adamW([2,llt,hht,bt,ct],gcost);
-							valueup[llt][hht][ct][bt] += adamW([3,llt,hht,ct,bt],gcost);
-						}
-					}
-				}//k,q,vup,vdown
-				for (hht = 0; hht < ffnlayers; hht++) {
-					for (bt = 0; bt < weights[llt][hht].length; bt++) {
-						for (ct = 0; ct < weights[llt][hht][bt].length; ct++) {
-							weights[llt][hht][bt][ct] += adamW([4,llt,hht,bt,ct],gcost);
-						}
-					}//weights
-					for (bt = 0; bt < biases[llt][hht].length; bt++) {
-						biases[llt][hht][bt] += adamW([5,llt,hht,bt],gcost);
-					}//biases
-				}//weights,biases
-			}
-			for (llt = 0; llt < tokens.length; llt++) {
-				for (hht = 0; hht < encodesize; hht++) {
-					encoders[llt][hht] += adamW([6,llt,hht],gcost);
+		for (bch = 0; bch < batch; bch++) {
+			
+			//declare
+			tsp++;
+			let parr = indexparrs[pxrand];
+			let randin = rr(learningset,learningset+sampleset);//choose train batch
+			let gtin;
+			
+			//get gtin
+			let gcost = runexample(randin,false);
+			dimen(true,params,parr,dimen(false,params,parr)+alpha);//small change
+			if (runexample(randin,false) > gcost) {
+				gtin = -alpha;
+			}//move backward
+			else {
+				gtin = alpha;
+			}//move forward
+			dimen(true,params,parr,dimen(false,params,parr)-alpha);//reset change
+
+			//add back adam values
+			let returnval = adamW(parr,gtin,mt,vt,tsp);
+			mt = returnval[0];
+			vt = returnval[1];
+			dimen(true,params,parr,dimen(false,params,parr)+gtin)
+			
+		}
+	}//perform grad descent
+	let randin = rr(learningset,learningset+sampleset);
+	runexample(randin,true);//for display
+	
+	/*
+ 	all parameters at once (broken)
+	for (llt = 0; llt < layers; llt++) {
+		for (hht = 0; hht < heads; hht++) {
+			for (bt = 0; bt < encodesize; bt++) {
+				for (ct = 0; ct < querykeydim; ct++) {
+					key[llt][hht][bt][ct] += adamW([0,llt,hht,bt,ct]);
+					query[llt][hht][bt][ct] += adamW([1,llt,hht,bt,ct]);
+					valuedown[llt][hht][bt][ct] += adamW([2,llt,hht,bt,ct]);
+					valueup[llt][hht][ct][bt] += adamW([3,llt,hht,ct,bt]);
 				}
 			}
+		}//k,q,vup,vdown
+		for (hht = 0; hht < ffnlayers; hht++) {
+			for (bt = 0; bt < weights[llt][hht].length; bt++) {
+				for (ct = 0; ct < weights[llt][hht][bt].length; ct++) {
+					weights[llt][hht][bt][ct] += adamW([4,llt,hht,bt,ct]);
+				}
+			}//weights
+			for (bt = 0; bt < biases[llt][hht].length; bt++) {
+				biases[llt][hht][bt] += adamW([5,llt,hht,bt]);
+			}//biases
+		}//weights,biases
+	}
+	for (llt = 0; llt < tokens.length; llt++) {
+		for (hht = 0; hht < encodesize; hht++) {
+			encoders[llt][hht] += adamW([6,llt,hht]);
 		}
 	}
+	*/
 	
 }
 
