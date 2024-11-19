@@ -130,7 +130,7 @@ function trainGPT() {
 			let returnval = adamW(parr,gtin,mt,vt,tsp);
 			mt = returnval[0];
 			vt = returnval[1];
-			dimen(true,params,parr,dimen(false,params,parr)+gtin)
+			dimen(true,params,parr,dimen(false,params,parr)+returnval[2])
 			
 		}
 	}//perform grad descent
