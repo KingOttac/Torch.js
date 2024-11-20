@@ -1,14 +1,11 @@
 //gpt
+let convertedlines = [];//giant array for dataset
 let encoders = [];//vectors to encode tokens
 let key = [];
 let query = [];
 let value = [];
 let tokens = [];
-//gpt train
-let mt = [];
-let vt = [];
 let params = [];
-let tsp = 0;
 
 //linear
 let costpertoken = [];//assigned by neuron number, represents derivative of cost function
