@@ -10,12 +10,15 @@ let outputsize = 0;//max output size
 let addbias = false;//add bias values to network
 
 //gpt
-let traindat = 0.9;//percentage of data used for gpt training
+//dataset
+let traindat = 0.9;//0-1 section of data used for gpt training
 let learningset = 0;//context length
+let sampleset = 0;//total number of data samples
+let lineset = 0;//lines of dataset
+//network
 let heads = 0;//heads of gpt network
 let querykeydim = 0;//size of smaller dimensional query-key-valuedown space (less then encodesize)
 let encodesize = 0;//value up, encoder vector size full representation
-let sampleset = 0;//sample data
 let smtemperature = 1;//temperature of softmax algorithm
 let sureness = 0;//gpt training value
 let ffnlayers = 0;//gpt second network layers
