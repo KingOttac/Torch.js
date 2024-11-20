@@ -1,7 +1,7 @@
 function tokenizer(lines,type) {
 
 	let convertedlines = [];
-	for (a = 0; a < sampleset; a++) {
+	for (a = 0; convertedlines.length < trainingIs+sampleset; a++) {
 		
 		let listarr = [];
 		if (type == "space") {
