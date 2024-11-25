@@ -12,43 +12,43 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 					for (g4 = 0; g4 < shapeARR[4] && dim > 4; g4++) {
 						ra[g][g1][g2][g3][g4] = [];
 						for (g5 = 0; g5 < shapeARR[5] && dim > 5; g5++) {
-							ra[g][g1][g2][g3][g4][g5] = getfill(g5);
+							ra[g][g1][g2][g3][g4][g5] = getfill([g,g1,g2,g3,g4,g5]);
 						}
 						if (dim == 5) {
-							ra[g][g1][g2][g3][g4] = getfill(g4);
+							ra[g][g1][g2][g3][g4] = getfill([g,g1,g2,g3,g4]);
 						}
 					}
 					if (dim == 4) {
-						ra[g][g1][g2][g3] = getfill(g3);
+						ra[g][g1][g2][g3] = getfill([g,g1,g2,g3]);
 					}
 				}
 				if (dim == 3) {
-					ra[g][g1][g2] = getfill(g2);
+					ra[g][g1][g2] = getfill([g,g1,g2]);
 				}
 			}
 			if (dim == 2) {
-				ra[g][g1] = getfill(g1);
+				ra[g][g1] = getfill([g,g1]);
 			}
 		}
 		if (dim == 1) {
-			ra[g] = getfill(g);
+			ra[g] = getfill([g]);
 		}
 	}//initializes arrays
 	
-	function getfill(index) {
+	function getfill(parr) {
 		if (ifrand == true) {
 			if (ifroundrand == true) {
-				return rr(randl,randh);
+				return rr(randl,randh+1);
 			}
 			else {
 				return random(randl,randh);
 			}
 		}
 		else if (ascending == true) {
-			return index;
+			return parr[parr.length-1];
 		}
 		else if (typeof fill === 'function') {
-			return fill();
+			return fill(parr);
 		}
 		else {
 			return fill;
