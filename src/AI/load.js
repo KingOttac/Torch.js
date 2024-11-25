@@ -54,7 +54,7 @@ function loadGen() {
 	
 }
 
-function loadGPT() {
+function loadshitGPT() {
 
 	//attention
 	key = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
@@ -67,27 +67,16 @@ function loadGPT() {
 	inputsize = encodesize;
 	hiddensize = 4*encodesize;
 	outputsize = encodesize;
-	weights = maketensor(1,[layers],shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,0,true,-wi,wi));
-	biases = maketensor(1,[layers],shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi));
+	weights = maketensor(1,[layers]);
+	for (a = 0; a < layers; a++) {
+		weights[a] = shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,0,true,-wi,wi);
+	}//load weights
+	biases = maketensor(1,[layers]);
+	for (a = 0; a < layers; a++) {
+		biases[a] = shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi);
+	}//load biases
 	
-	//unchanging
-	returns = maketensor(1,[learningset],untoken("\n"));
-	
-	//training
-	function filler(fv) {
-		return [
-			maketensor(4,[layers,heads,encodesize,querykeydim],fv),
-			maketensor(4,[layers,heads,encodesize,querykeydim],fv),
-			maketensor(4,[layers,heads,encodesize,querykeydim],fv),
-			maketensor(4,[layers,heads,querykeydim,encodesize],fv),
-			maketensor(1,[layers],shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,fv)),
-			maketensor(1,[layers],shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,fv)),
-			maketensor(2,[tokens.length,encodesize],fv)
-		];
-	}
-	mt = filler(0);
-	vt = filler(0);
-	tsp = 0;
+	//whole set for easy access
 	params = [key,query,valuedown,valueup,weights,biases,encoders];
 
 }
