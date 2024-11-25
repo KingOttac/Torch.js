@@ -68,17 +68,15 @@ function loadshitGPT() {
 	hiddensize = 4*encodesize;
 	outputsize = encodesize;
 	weights = maketensor(1,[layers]);
-	for (a = 0; a < layers; a++) {
-		weights[a] = shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,0,true,-wi,wi);
-	}//load weights
 	biases = maketensor(1,[layers]);
 	for (a = 0; a < layers; a++) {
-		biases[a] = shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi);
-	}//load biases
+		weights[a] = shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,0,true,-wi,wi);//load weights
+		biases[a] = shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi);//load biases
+	}
 	
 	//whole set for easy access
 	params = [key,query,valuedown,valueup,weights,biases,encoders];
-
+	
 }
 
 function loadlinear() {
