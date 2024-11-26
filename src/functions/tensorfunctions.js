@@ -59,25 +59,22 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 	
 }//limit of 6 dimensions, randl = lower bound, randh = upper bound
 
-function shapenet(shapeARR,specific,dim,sizing,fill,ifrand,randl,randh,ifroundrand,ascending) {
+function shapenet(shapeARR,specific,dim,hidlay,fill,ifrand,randl,randh,ifroundrand,ascending) {
 	
 	let totalshape;
 	if (specific == false) {
 		totalshape = [shapeARR[0]];
-		for (gsn = 1; gsn < sizing+1; gsn++) {
+		for (gsn = 1; gsn < hidlay+1; gsn++) {
 			totalshape[gsn] = shapeARR[1];
 		}
-		totalshape[sizing+1] = shapeARR[2];
+		totalshape[hidlay+1] = shapeARR[2];
 	}
 	else {
 		totalshape = shapeARR;
 	}
 	let rasn = [];
-	if (dim == 1) {
-		totalshape = transpose([totalshape])
-	}
-	for (gsn = 0; gsn < totalshape.length; gsn++) {
-		rasn[gsn] = maketensor(dim,[totalshape[gsn][0],totalshape[gsn][1]],fill,ifrand,randl,randh,ifroundrand,ascending);
+	for (gsn = 0; gsn < totalshape.length-1; gsn++) {
+		rasn[gsn] = maketensor(dim,[totalshape[gsn+int(dim==1)],totalshape[gsn+1]],fill,ifrand,randl,randh,ifroundrand,ascending);
 	}
 	return rasn;
 	
