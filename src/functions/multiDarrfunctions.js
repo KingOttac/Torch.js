@@ -56,6 +56,30 @@ function concatenate(ARR) {
 	
 }//combines rows of 2d array into 1d array
 
+function add2d(ARR1,ARR2) {
+
+	return opxd("add",ARR1,ARR2);
+	
+}
+
+function sub2d(ARR1,ARR2) {
+
+	return opxd("sub",ARR1,ARR2);
+	
+}
+
+function mult2d(ARR1,ARR2) {
+
+	return opxd("mult",ARR1,ARR2);
+	
+}
+
+function div2d(ARR1,ARR2) {
+
+	return opxd("div",ARR1,ARR2);
+	
+}
+
 function CA(ARR,obj) {
 	
 	return ARR.slice(0);
