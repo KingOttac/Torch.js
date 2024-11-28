@@ -124,6 +124,14 @@ function runexample(data,disp==true) {
 
 }
 
+function getinput() {
+	
+	let trainingIs = /*access dataset here*/
+	let label = /*load label for dataset example*/
+	return [trainingIs,label];//returned to the training function
+	
+}//load a single example
+
 function getNetGuess() {
 	
 	//load some data for the network from user
