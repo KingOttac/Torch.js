@@ -1,12 +1,33 @@
-function adamW(parr,gtin,mtin,vtin,tspin) {
+function adamW(parr) {
 	
-	//calculate vec adjust
-	mtin = b1*mtin + (1-b1)*gtin;//get first vec change
-	vtin = b2*vtin + (1-b2)*pow(gtin,2);//get second vec change
-	let mtv = mtin/(1-pow(b1,tspin));//first vec bias correct
-	let vtv = vtin/(1-pow(b2,tspin));//second vec bias correct
+	let tsp = 0;
+	let mt = 0;
+	let vt = 0;
+	for (ee = 0; ee < epoch; ee++) {
+		for (bch = 0; bch < batch; bch++) {
+			
+			//declare
+			tsp++;
+			let randin = getinput();//load training data
+			let gtin;
+			
+			//get gtin
+			let gcost = runexample(randin,false);
+			dimen(true,params,parr,dimen(false,params,parr)+alpha);//small change
+			gtin = -(runexample(randin,false)-gcost)/alpha;//approximate deriv
+			dimen(true,params,parr,dimen(false,params,parr)-alpha);//reset change
 
-	//send back values
-	return [mtin,vtin,alpha*mtv/(sqrt(vtv)+epsilon)];
+			//calculate vec adjust
+			mt = b1*mt + (1-b1)*gtin;//get first vec change
+			vt = b2*vt + (1-b2)*pow(gtin,2);//get second vec change
+			let mtv = mt/(1-pow(b1,tsp));//first vec bias correct
+			let vtv = vt/(1-pow(b2,tsp));//second vec bias correct
 
+			//add back adam value
+			let finalval = alpha*mtv/(sqrt(vtv)+epsilon);
+			dimen(true,params,parr,dimen(false,params,parr)+finalval);
+			
+		}
+	}//perform grad descent
+	
 }//network consts
