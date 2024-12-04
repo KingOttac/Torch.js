@@ -1,5 +1,6 @@
 function tokenizer(lines,type) {
 
+	tokens[0] = "\n";
 	let convertedlines = [];
 	for (a = 0; convertedlines.length < learningset+sampleset; a++) {
 		
