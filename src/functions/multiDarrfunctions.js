@@ -21,7 +21,9 @@ function transpose(ARR) {
 function matrixmult(ARR1,ARR2) {
 	
 	if (ARR1[0].length != ARR2.length) {
-		print("ERROR:\ninfo:\nARR1:",ARR1,"ARR2:",ARR2)
+		print("ERROR:\nARR1:",ARR1,"ARR2:",ARR2,"\ninfo:\n")
+		let errorteststring = 0;
+		print(errorteststring[0][0]);
 		exit()
 	}
 	let returnarr = [];
