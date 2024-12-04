@@ -23,7 +23,7 @@ function tokenizer(lines,type) {
 			listarr = lines[a] + "\n";
 			listarr = split(listarr,"");
 		}
-		for (b = 0; b < listarr.length; b++) {
+		for (b = 0; b < listarr.length && convertedlines.length < learningset+sampleset; b++) {
 			convertedlines[convertedlines.length] = listarr[b];
 			if (untoken(listarr[b]) == -1) {
 				tokens[tokens.length] = listarr[b];
