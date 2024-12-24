@@ -90,7 +90,10 @@ function trainGPT(disp) {
 	//encode case
 	let llte = rr(0,tokens.length);
 	let hhte = rr(0,encodesize);
-	let hhtd = rr(0,outputsize);
+	let hhtd;
+	if (params[7] !== undefined) {
+		hhtd = rr(0,outputsize);
+	}
 
 	//choose param and run optimizer
 	let pxrand = rr(0,params.length);
