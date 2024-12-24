@@ -103,7 +103,7 @@ function runGPT(input) {
 function linear(ARR,weightsarr,biasesarr) {
 
 	let returnarr = matrixmult([ARR],weightsarr)[0];
-	if (addbias == true) {
+	if (addbias == true && biasesarr !== undefined) {
 		returnarr = add2d([returnarr],[biasesarr])[0];
 	}
 
