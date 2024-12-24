@@ -51,10 +51,7 @@ function runGen(input,sorted,iid,outputarr,allnetworks) {
 function runGPT(input) {
 
 	//multihead self attention
-	let last = [];
-	for (ll = 0; ll < input.length; ll++) {
-		last[ll] = CA(encoders[input[ll]])
-	}//sets up encoders of last
+	last = input
 	neuronstore = maketensor(3,[layers],0);//init
 	for (ll = 0; ll < layers; ll++) {
 		//multihead self attention
