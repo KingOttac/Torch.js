@@ -90,9 +90,10 @@ function trainGPT(disp) {
 	//encode case
 	let llte = rr(0,tokens.length);
 	let hhte = rr(0,encodesize);
+	let hhtd = rr(0,outputsize);
 
 	//choose param and run optimizer
-	let pxrand = rr(0,7);
+	let pxrand = rr(0,params.length);
 	let indexparrs = [
 		[pxrand,llt,hht,bt,ct],
 		[pxrand,llt,hht,bt,ct],
@@ -100,7 +101,8 @@ function trainGPT(disp) {
 		[pxrand,llt,hht,ct,bt],
 		[pxrand,llt,hhtw,btw,ctw],
 		[pxrand,llt,hhtw,btb],
-		[pxrand,llt,hhte]
+		[pxrand,llte,hhte],
+		[pxrand,hhte,hhtd]
 	];
 	adamW(CA(indexparrs[pxrand]));
 	runexample(getinput(),disp==0);//for display
