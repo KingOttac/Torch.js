@@ -48,9 +48,6 @@ function untoken(Q) {
 			return g;
 		}
 	}
-	if (Q == "") {
-		return 8;
-	}//newline catch
 	return -1;
 	
 }
