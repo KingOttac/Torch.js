@@ -7,6 +7,9 @@ function tokenizer(lines,type) {
 		let listarr = [];
 		if (type == "space") {
 			listarr = lines[a];
+			if (listarr == "") {
+				listarr = "\n";
+			}
 			listarr = split(listarr," ");
 			let rlistarr = [];
 			for (b = 0; b < listarr.length; b++) {
@@ -34,7 +37,7 @@ function tokenizer(lines,type) {
 	}
 
 	for (a = 0; a < convertedlines.length; a++) {
-		convertedlines[a] = untoken(convertedlines[a])
+		convertedlines[a] = untoken(convertedlines[a]);
 	}//convert everything into numbers
 	return convertedlines;
 	
