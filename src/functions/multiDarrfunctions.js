@@ -24,13 +24,7 @@ function matrixmult(ARR1,ARR2) {
 		print("ERROR:\ninfo:\nARR1:",ARR1,"ARR2:",ARR2)
 		exit()
 	}
-	let returnarr = [];
-	for (g = 0; g < ARR1.length; g++) {
-		returnarr[g] = [];
-		for (g1 = 0; g1 < ARR2[0].length; g1++) {
-			returnarr[g][g1] = 0;
-		}
-	}//initialize returnarrs
+	let returnarr = maketensor(2,[ARR1.length,ARR2[0].length],0)
 	
 	for (g = 0; g < returnarr.length; g++) {
 		for (g1 = 0; g1 < returnarr[g].length; g1++) {
