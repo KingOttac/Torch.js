@@ -50,6 +50,9 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 		else if (typeof fill === 'function') {
 			return fill(parr);
 		}
+		else if (typeof fill === 'object') {
+			return CA(fill);
+		}
 		else {
 			return fill;
 		}
