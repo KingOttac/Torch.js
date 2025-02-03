@@ -93,3 +93,14 @@ function getrandin(ARR,low,top,checksum) {
 	}//number in between low and randr
 	
 }
+
+function contains(arr,val) {
+
+	for (g = 0; g < arr.length; g++) {
+		if (arr[g] == val) {
+			return true;
+		}
+	}
+	return false;
+	
+}
