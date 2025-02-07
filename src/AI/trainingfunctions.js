@@ -114,54 +114,37 @@ function trainGPT(disp) {
 
 function trainlinear(tps) {
 	
-	costpertoken = maketensor(2,[layers+1,hiddensize],0,false);//hidden
-	costpertoken[layers] = runexample(getinput(),tps == 0);//output
-	for (bb = layers; bb >= 0; bb--) {//layer
-		for (aa = 0; aa < weights[bb].length; aa++) {//first neuron
-			for (aa1 = 0; aa1 < weights[bb][aa].length; aa1++) {//second neuron
-				let gfd = getfuncderiv(neuronstore[bb+1][aa1]);
-				weights[bb][aa][aa1] += //sum of
-					activate([neuronstore[bb][aa]])[0] * //in terms of zl- prev neuron is what influences zl
-					gfd * //in terms of al- derivative of relu w/ respect to zl
-					costpertoken[bb][aa1] *  //in terms of cost- desired change to cost
-					learningrate;
-				biases[bb][aa] += 
-					gfd * //in terms of al- derivative of prev w/ respect to zl
-					costpertoken[bb][aa1] *  //in terms of cost- desired change to cost down the line
-					learningrate;
-				if (bb != 0) {
-					costpertoken[bb-1][aa] += 
-						weights[bb][aa][aa1] * //in terms of zl- weight is what influences zl
-						gfd * //in terms of al- derivative of relu w/ respect to zl
-						costpertoken[bb][aa1];  //in terms of cost- desired change to cost down the line
-				}//next costs if not final layer
-			}
-		}
-	}
+	let costs = runexample(getinput(),tps == 0);//output
+	backprop(weights,biases,neuronstore,costs);
 
 }//train the model
 
-function backprop(layin,allweights,allbiases,nstore,costpertoken) {
+function backprop(allweights,allbiases,nstore,costpertoken) {
 	
-	for (bb = layin; bb >= 0; bb--) {//layer
+	for (bb = allweights.length-1; bb >= 0; bb--) {//layer
+		let newcosts = maketensor(1,[allweights[bb].length],0);
 		for (aa = 0; aa < allweights[bb].length; aa++) {//first neuron
 			for (aa1 = 0; aa1 < allweights[bb][aa].length; aa1++) {//second neuron
 				let gfd = getfuncderiv(nstore[bb+1][aa1]);
-				allweights[bb][aa][aa1] +=//sum of
+				allweights[bb][aa][aa1] += 
 					activate([nstore[bb][aa]])[0] * //in terms of zl- prev neuron is what influences zl
 					gfd * //in terms of al- derivative of relu w/ respect to zl
-					costpertoken[bb+1][aa1] *  //in terms of cost- desired change to cost
+					costpertoken[aa1] *  //in terms of cost- desired change to cost
 					learningrate;
-				allbiases[bb][aa] += 
-					gfd * //in terms of al- derivative of prev w/ respect to zl
-					costpertoken[bb+1][aa1] *  //in terms of cost- desired change to cost down the line
-					learningrate;
-				costpertoken[bb][aa] += 
+				if (allbiases !== false) {
+					allbiases[bb][aa1] += 
+						gfd * //in terms of al- derivative of prev w/ respect to zl
+						costpertoken[aa1] *  //in terms of cost- desired change to cost down the line
+						learningrate;
+				}
+				newcosts[aa] += 
 					allweights[bb][aa][aa1] * //in terms of zl- weight is what influences zl
 					gfd * //in terms of al- derivative of relu w/ respect to zl
-					costpertoken[bb+1][aa1];  //in terms of cost- desired change to cost down the line
+					costpertoken[aa1];  //in terms of cost- desired change to cost down the line
 			}
 		}
+		costpertoken = newcosts;
 	}
+	return costpertoken;
 	
 }
