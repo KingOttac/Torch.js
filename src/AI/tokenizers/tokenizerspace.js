@@ -6,21 +6,16 @@ function tokenizerspace(lines) {
 		
 		let listarr = [];
 		listarr = lines[a];
-		if (listarr == "") {
-			listarr = "\n";
-		}
 		listarr = split(listarr," ");
-		let rlistarr = [];
-		for (b = 0; b < listarr.length; b++) {
-			rlistarr[rlistarr.length] = listarr[b];
-			if (b != listarr.length-1) {
-				rlistarr[rlistarr.length] = " ";
-			}
-			else {
-				rlistarr[rlistarr.length] = "\n";
-			}
+		for (b = 0; b < listarr.length-1; b++) {
+			listarr[b] += " ";
 		}
-		listarr = rlistarr;
+		if (listarr[0] != "") {
+			listarr[listarr.length] = "\n";
+		}
+		else {
+			listarr[0] = "\n";
+		}
 		for (b = 0; b < listarr.length && convertedlines.length < learningset+sampleset; b++) {
 			convertedlines[convertedlines.length] = listarr[b];
 			if (untoken(listarr[b]) == -1) {
@@ -33,6 +28,7 @@ function tokenizerspace(lines) {
 	for (a = 0; a < convertedlines.length; a++) {
 		convertedlines[a] = untoken(convertedlines[a]);
 	}//convert everything into numbers
+	
 	return convertedlines;
 	
 }//converts one data file (from preload) into tokens in the final array
