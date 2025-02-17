@@ -1,32 +1,26 @@
-function tokenizer(lines,type) {
+function tokenizerspace(lines) {
 
 	tokens[0] = "\n";
 	let convertedlines = [];
 	for (a = 0; convertedlines.length < learningset+sampleset && a < lines.length; a++) {
 		
 		let listarr = [];
-		if (type == "space") {
-			listarr = lines[a];
-			if (listarr == "") {
-				listarr = "\n";
-			}
-			listarr = split(listarr," ");
-			let rlistarr = [];
-			for (b = 0; b < listarr.length; b++) {
-				rlistarr[rlistarr.length] = listarr[b];
-				if (b != listarr.length-1) {
-					rlistarr[rlistarr.length] = " ";
-				}
-				else {
-					rlistarr[rlistarr.length] = "\n";
-				}
-			}
-			listarr = rlistarr;
+		listarr = lines[a];
+		if (listarr == "") {
+			listarr = "\n";
 		}
-		else if (type == "char") {
-			listarr = lines[a] + "\n";
-			listarr = split(listarr,"");
+		listarr = split(listarr," ");
+		let rlistarr = [];
+		for (b = 0; b < listarr.length; b++) {
+			rlistarr[rlistarr.length] = listarr[b];
+			if (b != listarr.length-1) {
+				rlistarr[rlistarr.length] = " ";
+			}
+			else {
+				rlistarr[rlistarr.length] = "\n";
+			}
 		}
+		listarr = rlistarr;
 		for (b = 0; b < listarr.length && convertedlines.length < learningset+sampleset; b++) {
 			convertedlines[convertedlines.length] = listarr[b];
 			if (untoken(listarr[b]) == -1) {
