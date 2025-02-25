@@ -195,3 +195,23 @@ function opxd(oper,ARR1,ARR2) {
 	return ARR1;
 	
 }//adds two same size arrays
+
+function shape(ARR1) {
+
+  let shapeARR = [ARR1.length];
+	for (ga = 0; ga < 6; ga++) {
+    let testv = dimen(false,ARR1,maketensor(1,[ga+2],0));
+		if (testv === undefined) {
+			break;
+		}
+	  shapeARR[ga+1] = testv.length;
+	}
+  return shapeARR;
+
+}
+
+function tensor(fill,shapearr) {
+
+  return maketensor(shapearr.length,shapearr,fill);
+
+}
