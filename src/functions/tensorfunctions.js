@@ -28,11 +28,11 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 			return parr[parr.length-1];
 		}
 		else if (typeof fill === 'function') {
-			return fill(parr);
+			return fill(parr,ifrand);//input arr gets assigned to ifrand
 		}
-		else if (typeof fill === 'object') {
+		else if (fill[0] !== undefined) {
 			return CA(fill);
-		}
+		}//array
 		else {
 			return fill;
 		}
