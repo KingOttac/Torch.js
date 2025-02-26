@@ -1,7 +1,7 @@
 function tril(ARR,v) {
 	
-	for (g = 0; g < ARR.length; g++) {
-		for (g1 = 0; g1 < ARR[0].length; g1++) {
+	for (let g = 0; g < ARR.length; g++) {
+		for (let g1 = 0; g1 < ARR[0].length; g1++) {
 			if (g1 > g) {
 				ARR[g][g1] = v;
 			}
@@ -26,9 +26,9 @@ function matrixmult(ARR1,ARR2) {
 	}
 	let returnarr = maketensor(2,[ARR1.length,ARR2[0].length],0)
 	
-	for (g = 0; g < returnarr.length; g++) {
-		for (g1 = 0; g1 < returnarr[g].length; g1++) {
-			for (g2 = 0; g2 < ARR1[0].length; g2++) {
+	for (let g = 0; g < returnarr.length; g++) {
+		for (let g1 = 0; g1 < returnarr[g].length; g1++) {
+			for (let g2 = 0; g2 < ARR1[0].length; g2++) {
 				returnarr[g][g1] += ARR1[g][g2]*ARR2[g2][g1];
 			}
 		}
@@ -41,8 +41,8 @@ function matrixmult(ARR1,ARR2) {
 function concatenate(ARR) {
 	
 	let ra = [];
-	for (g = 0; g < ARR.length; g++) {
-		for (g1 = 0; g1 < ARR[g].length; g1++) {
+	for (let g = 0; g < ARR.length; g++) {
+		for (let g1 = 0; g1 < ARR[g].length; g1++) {
 			ra[ra.length] = ARR[g][g1];
 		}
 	}
