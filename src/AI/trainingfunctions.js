@@ -8,8 +8,8 @@ function trainGen() {
 	let final = [];
 	let divline = round(iterations/2*(1-perevolve));//where to switch from keep to change
 	let loopmover = -1;//used to only keep best networks
-	for (gg1 = 0; gg1 < divline; gg1++) {
-		if (gg1 != 0 && tsbests[gg1][1] != tsbests[gg1-1][1]) {
+	for (let gg1 = 0; gg1 < divline; gg1++) {
+		if (let gg1 != 0 && tsbests[gg1][1] != tsbests[gg1-1][1]) {
 			loopmover = 0;
 		}
 		else {
@@ -17,12 +17,12 @@ function trainGen() {
 		}
 		final[gg1] = neuronstore[tsbests[loopmover][0]];
 	}//kept networks first section
-	for (gg1 = divline; gg1 < round(iterations/2); gg1++) {
-		for (ggr = rr(0,learningrate); ggr > 0; ggr--) {
+	for (let gg1 = divline; gg1 < round(iterations/2); gg1++) {
+		for (let ggr = rr(0,learningrate); ggr > 0; ggr--) {
 			if (random(0,1) < newlayer && neuronstore[gg1].length < layers+2) {
 				let leng = neuronstore[gg1].length;
 				neuronstore[gg1][leng] = CA(neuronstore[gg1][leng-1],true);//shift output to right
-				for (gg2 = 0; gg2 < outputsize; gg2++) {
+				for (let gg2 = 0; gg2 < outputsize; gg2++) {
 					neuronstore[gg1][leng][gg2].index[0]++;
 				}//shift output indexes
 				neuronstore[gg1][leng-1] = [{
@@ -45,7 +45,7 @@ function trainGen() {
 					}
 			}//add neuron to existing layer
 		}//new neurons
-		for (ggr = rr(0,weightmult*learningrate); ggr > 0; ggr--) {
+		for (let ggr = rr(0,weightmult*learningrate); ggr > 0; ggr--) {
 			let randlay = rr(1,neuronstore[gg1].length);//excludes first lay- second
 			let randwei = rr(0,neuronstore[gg1][randlay].length);//get rand in lay- second
 			let randconlay = rr(0,randlay);//layer of index- first
@@ -55,14 +55,14 @@ function trainGen() {
 			}
 			neuronstore[gg1][randlay][randwei].weights[randconlay][randconwei] = random(-wi,wi);//set weight
 		}//new weights
-		for (ggr = rr(0,learningrate); ggr > 0; ggr--) {
+		for (let ggr = rr(0,learningrate); ggr > 0; ggr--) {
 			let randlay = rr(1,neuronstore[gg1].length);//excludes first lay- second
 			let randwei = rr(0,neuronstore[gg1][randlay].length);//get rand in lay- second
 			neuronstore[gg1][randlay][randwei].bias += random(-wi,wi);//set bias
 		}//new biases
 		final[gg1] = neuronstore[gg1];
 	}//random traits first section
-	for (gg1 = round(iterations/2); gg1 < iterations; gg1++) {
+	for (let gg1 = round(iterations/2); gg1 < iterations; gg1++) {
 		final[gg1] = final[gg1-round(iterations/2)];
 	}//copy both to second section
 	neuronstore = final;
@@ -121,10 +121,10 @@ function trainlinear(tps) {
 
 function backprop(allweights,allbiases,nstore,costpertoken) {
 	
-	for (bb = allweights.length-1; bb >= 0; bb--) {//layer
+	for (let bb = allweights.length-1; bb >= 0; bb--) {//layer
 		let newcosts = maketensor(1,[allweights[bb].length],0);
-		for (aa = 0; aa < allweights[bb].length; aa++) {//first neuron
-			for (aa1 = 0; aa1 < allweights[bb][aa].length; aa1++) {//second neuron
+		for (let aa = 0; aa < allweights[bb].length; aa++) {//first neuron
+			for (let aa1 = 0; aa1 < allweights[bb][aa].length; aa1++) {//second neuron
 				let gfd = getfuncderiv(nstore[bb+1][aa1]);
 				allweights[bb][aa][aa1] += 
 					activate([nstore[bb][aa]])[0] * //in terms of zl- prev neuron is what influences zl
