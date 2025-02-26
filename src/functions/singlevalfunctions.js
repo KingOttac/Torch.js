@@ -43,7 +43,7 @@ function getfuncderiv(input) {
 
 function untoken(Q) {
 	
-	for (g = 0; g < tokens.length; g++) {
+	for (let g = 0; g < tokens.length; g++) {
 		if (tokens[g] == Q) {
 			return g;
 		}
