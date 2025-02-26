@@ -1,7 +1,7 @@
 function activate(ARR) {
 	
 	let ra = [];
-	for (g = 0; g < ARR.length; g++) {
+	for (let g = 0; g < ARR.length; g++) {
 		if (type == "sigmoid") {
 			ra[g] = sigmoid(ARR[g]);
 		}
@@ -20,10 +20,10 @@ function softmax(ARR) {
 	
 	let exsum = 0;
 	let arrtoreturn = [];
-	for (g = 0; g < ARR.length; g++) {
+	for (let g = 0; g < ARR.length; g++) {
 		exsum += pow(e,ARR[g]/smtemperature);
 	}
-	for (g = 0; g < ARR.length; g++) {
+	for (let g = 0; g < ARR.length; g++) {
 		arrtoreturn[g] = pow(e,ARR[g]/smtemperature)/exsum;
 		if (isNaN(arrtoreturn[g])) {
 			arrtoreturn[g] = 1;
@@ -77,13 +77,13 @@ function normalize(ARR,scalar) {
 function getrandin(ARR,low,top,checksum) {
 	
 	let counter = 0;
-	for (g = low; g < top; g++) {
+	for (let g = low; g < top; g++) {
 		if (ARR[g] === checksum) {
 			counter++;
 		}
 	}//how many checksums are there
 	let randranged = rr(1,top-counter-low+1);//get a random number
-	for (g = low; g < top; g++) {
+	for (let g = low; g < top; g++) {
 		if (ARR[g] !== checksum) {
 			randranged--;
 		}
@@ -96,7 +96,7 @@ function getrandin(ARR,low,top,checksum) {
 
 function contains(arr,val) {
 
-	for (g = 0; g < arr.length; g++) {
+	for (let g = 0; g < arr.length; g++) {
 		if (arr[g] == val) {
 			return true;
 		}
