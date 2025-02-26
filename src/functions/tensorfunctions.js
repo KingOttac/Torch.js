@@ -122,7 +122,7 @@ function shape(ARR1) {
 
   let shapeARR = [];
 	testv = ARR1;
-	for (ga = 0; testv[0] !== undefined; ga++) {
+	for (let ga = 0; testv[0] !== undefined; ga++) {
 		shapeARR[ga] = testv.length;
     testv = testv[0];
 	}
