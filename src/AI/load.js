@@ -74,7 +74,6 @@ function loadGPT() {
 		biases[a] = shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi);//load biases
 	}
 	
-	//whole set for easy access
 	params = [key,query,valuedown,valueup,weights,biases,encoders];
 	
 }
