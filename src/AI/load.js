@@ -57,13 +57,12 @@ function loadGPT() {
 	inputsize = encodesize;
 	hiddensize = 4*encodesize;
 	outputsize = encodesize;
-	weights = maketensor(1,[layers]);
-	biases = maketensor(1,[layers]);
-	for (let a = 0; a < layers; a++) {
-		weights[a] = shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,0,true,-wi,wi);//load weights
-		biases[a] = shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi);//load biases
+	let shapenetcall = function(parr,inputs) {
+		return shapenet(inputs[0],inputs[1],inputs[2],inputs[3],inputs[4],inputs[5],inputs[6],inputs[7]);
 	}
-	
+	weights = maketensor(1,[layers],shapenetcall,[[inputsize,hiddensize,outputsize],false,2,ffnlayers,0,true,-wi,wi]);
+	biases = maketensor(1,[layers],shapenetcall,[[hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi]);
+
 	params = [key,query,valuedown,valueup,weights,biases,encoders];
 	
 }
