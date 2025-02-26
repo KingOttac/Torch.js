@@ -9,7 +9,7 @@ function trainGen() {
 	let divline = round(iterations/2*(1-perevolve));//where to switch from keep to change
 	let loopmover = -1;//used to only keep best networks
 	for (let gg1 = 0; gg1 < divline; gg1++) {
-		if (let gg1 != 0 && tsbests[gg1][1] != tsbests[gg1-1][1]) {
+		if (gg1 != 0 && tsbests[gg1][1] != tsbests[gg1-1][1]) {
 			loopmover = 0;
 		}
 		else {
