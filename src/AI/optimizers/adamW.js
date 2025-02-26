@@ -3,8 +3,8 @@ function adamW(parr) {
 	let tsp = 0;
 	let mt = 0;
 	let vt = 0;
-	for (ee = 0; ee < epoch; ee++) {
-		for (bch = 0; bch < batch; bch++) {
+	for (let ee = 0; ee < epoch; ee++) {
+		for (let bch = 0; bch < batch; bch++) {
 			
 			//declare
 			tsp++;
