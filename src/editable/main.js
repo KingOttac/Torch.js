@@ -105,7 +105,7 @@ function runexample(data,disp==true) {
 		
 	//let netarr = run/model\(data);
 	let totalcost = 0;
-	for (a = 0; a < netarr.length; a++) {
+	for (let a = 0; a < netarr.length; a++) {
 		if (netarr[a][0] != label) {
 			totalcost += netarr[a][1];
 			costpertoken[layers][netarr[a][0]] += -1*sureness*netarr[a][1];
