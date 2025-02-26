@@ -18,16 +18,6 @@ let costarr = [];
 let scores = [];//generation scores
 let currentbest = 0;
 
-function loadlinear() {
-	
-	weights = maketensor(3,[layers,hiddensize,hiddensize],0,true,-1*wi,wi);
-	weights[0] = maketensor(2,[encodesize,hiddensize],0,true,-1*wi,wi);
-	weights[layers] = maketensor(2,[hiddensize,outputsize],0,true,-1*wi,wi);
-	biases = maketensor(2,[layers+1,hiddensize],0,true,-1*wi,wi);
-	biases[layers] = maketensor(1,[outputsize],0,true,-1*wi,wi);
-	
-}
-
 function loadGen() {
 	
 	scores = maketensor(1,[iterations],0);//updated in draw
