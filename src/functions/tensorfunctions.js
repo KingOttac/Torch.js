@@ -91,30 +91,21 @@ function opxd(oper,ARR1,ARR2) {
 		exit()
 	}
 	
-	let opxdin = function opfill(parr) {};
-	switch (oper) {
-		case "add":
-			opxdin = function opfill(parr) {
-				return dimen(false,ARR1,parr)+dimen(false,ARR2,parr);
-			};
-		break;
-		case "sub":
-			opxdin = function opfill(parr) {
-				return dimen(false,ARR1,parr)-dimen(false,ARR2,parr);
-			};
-		break;
-		case "mult":
-			opxdin = function opfill(parr) {
-				return dimen(false,ARR1,parr)*dimen(false,ARR2,parr);
-			};
-		break;
-		case "div":
-			opxdin = function opfill(parr) {
-				return dimen(false,ARR1,parr)/dimen(false,ARR2,parr);
-			};
-		break;
+	let opxdin = function opfill(parr,inputs) {
+		if (inputs[2] == "add") {
+			return dimen(false,inputs[0],parr)+dimen(false,inputs[1],parr);
+		}
+		if (inputs[2] == "sub") {
+			return dimen(false,inputs[0],parr)-dimen(false,inputs[1],parr);
+		}
+		if (inputs[2] == "mult") {
+			return dimen(false,inputs[0],parr)*dimen(false,inputs[1],parr);
+		}
+		if (inputs[2] == "div") {
+			return dimen(false,inputs[0],parr)/dimen(false,inputs[1],parr);
+		}
 	}
-	return maketensor(shapeARR.length,shapeARR,opxdin);
+	return maketensor(shapeARR.length,shapeARR,opxdin,[ARR1,ARR2,oper]);
 	
 }//adds two same size arrays
 
