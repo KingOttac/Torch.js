@@ -32,16 +32,16 @@ function loadGen() {
 	
 	scores = maketensor(1,[iterations],0);//updated in draw
 	neuronstore = maketensor(2,[iterations,2],[]);
-	for (a = 0; a < iterations; a++) {
+	for (let a = 0; a < iterations; a++) {
 		neuronstore[a][0] = [];
 		neuronstore[a][1] = [];
-		for (b = 0; b < inputsize; b++) {
+		for (let b = 0; b < inputsize; b++) {
 			neuronstore[a][0][b] = {
 				index:[0,b],
 				value:0
 			}
 		}
-		for (b = 0; b < outputsize; b++) {
+		for (let b = 0; b < outputsize; b++) {
 			neuronstore[a][1][b] = {
 				index:[1,b],
 				weights:[],
@@ -69,7 +69,7 @@ function loadGPT() {
 	outputsize = encodesize;
 	weights = maketensor(1,[layers]);
 	biases = maketensor(1,[layers]);
-	for (a = 0; a < layers; a++) {
+	for (let a = 0; a < layers; a++) {
 		weights[a] = shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,0,true,-wi,wi);//load weights
 		biases[a] = shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi);//load biases
 	}
@@ -81,10 +81,7 @@ function loadGPT() {
 
 function loadlinear() {
 
-	weights = maketensor(3,[layers,hiddensize,hiddensize],0,true,-wi,wi);
-	weights[0] = maketensor(2,[encodesize,hiddensize],0,true,-wi,wi);
-	weights[layers] = maketensor(2,[hiddensize,outputsize],0,true,-wi,wi);
-	biases = maketensor(2,[layers+1,hiddensize],0,true,-wi,wi);
-	biases[layers] = maketensor(1,[outputsize],0,true,-wi,wi);
+	weights = shapenet([inputsize,hiddensize,outputsize],false,2,layers,0,true,-wi,wi);//load weights
+	biases = shapenet([hiddensize,hiddensize,outputsize],false,1,layers,0,true,-wi,wi);//load biases
 
 }
