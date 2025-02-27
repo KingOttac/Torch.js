@@ -3,10 +3,10 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 	let inparr = [];
 	function recurmt(mtdim,mtshape) {
 		let ra = [];
-		for (let g = 0; g < shapeARR[0]; g++) {
+		for (let g = 0; g < mtshape[0]; g++) {
 			inparr[dim-mtdim] = g;
 			if (mtdim > 1) {
-				ra[g] = recurmt(mtdim-1,shapeARR.slice(1,shapeARR.length));
+				ra[g] = recurmt(mtdim-1,mtshape.slice(1,mtshape.length));
 			}
 			else {
 				ra[g] = getfill(inparr);
