@@ -1,4 +1,4 @@
-function maketensor1(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) {
+function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) {
 	
 	let inparr = [];
 	function recurmt(mtdim,mtshape) {
