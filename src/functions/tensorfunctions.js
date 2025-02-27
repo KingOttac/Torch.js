@@ -1,4 +1,4 @@
-function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) {
+function maketensor1(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) {
 	
 	let inparr = [];
 	function recurmt(mtdim,mtshape) {
@@ -30,7 +30,7 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 		else if (typeof fill === 'function') {
 			return fill(parr,ifrand);//input arr gets assigned to ifrand
 		}
-		else if (fill[0] !== undefined) {
+		else if (fill !== undefined && fill[0] !== undefined) {
 			return CA(fill);
 		}//array
 		else {
