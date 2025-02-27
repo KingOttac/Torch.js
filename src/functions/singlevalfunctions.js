@@ -1,6 +1,6 @@
 let e = 2.718281828459045
 
-function GELU1(num,scl) {
+function GELU(num,scl) {
 	
 	if (scl == undefined) {
 		scl = scale;
@@ -9,7 +9,7 @@ function GELU1(num,scl) {
 	
 }
 
-function sigmoid1(num,scl) {
+function sigmoid(num,scl) {
 	
 	if (scl == undefined) {
 		scl = scale;
@@ -18,7 +18,7 @@ function sigmoid1(num,scl) {
 	
 }
 
-function RELU1(num,scl) {
+function RELU(num,scl) {
 	
 	if (scl == undefined) {
 		scl = scale;
