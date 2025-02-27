@@ -40,7 +40,7 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 	
 	return recurmt(dim,CA(shapeARR));
 	
-}//limit of 6 dimensions, randl = lower bound, randh = upper bound
+}
 
 function shapenet(shapeARR,specific,dim,hidlay,fill,ifrand,randl,randh,ifroundrand,ascending) {
 	
