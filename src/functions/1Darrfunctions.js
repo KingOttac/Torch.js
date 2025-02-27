@@ -1,35 +1,45 @@
-function activate(ARR) {
+function activate(ARR,type,scale) {
 	
-	let ra = [];
-	for (let g = 0; g < ARR.length; g++) {
+	let shapeARR = shape(ARR);
+	let actfunc = function(parr,inputs) {
 		if (type == "sigmoid") {
-			ra[g] = sigmoid(ARR[g]);
+			return sigmoid1(dimen(false,inputs[0],parr),1);
 		}
 		else if (type == "RELU") {
-			ra[g] = RELU(ARR[g]);
+			return RELU1(dimen(false,inputs[0],parr),scale);
 		}
 		else if (type == "GELU") {
-			ra[g] = GELU(ARR[g]);
+			return GELU1(dimen(false,inputs[0],parr),scale);
 		}
 	}
-	return ra;
+	return maketensor(shapeARR.length,shapeARR,actfunc,[ARR]);
 	
 }
 
-function softmax(ARR) {
+function softmax(ARR,smtemperature) {
 	
-	let exsum = 0;
-	let arrtoreturn = [];
-	for (let g = 0; g < ARR.length; g++) {
-		exsum += pow(e,ARR[g]/smtemperature);
-	}
-	for (let g = 0; g < ARR.length; g++) {
-		arrtoreturn[g] = pow(e,ARR[g]/smtemperature)/exsum;
-		if (isNaN(arrtoreturn[g])) {
-			arrtoreturn[g] = 1;
+	let shapeARR = shape(ARR);
+	shapeARR = shapeARR.slice(0,shapeARR.length-1);
+	let smin = function(parr,inputs) {
+		let touse = dimen(false,inputs[0],parr);
+		let exsum = 0;
+		let arrtoreturn = [];
+		for (let g = 0; g < touse.length; g++) {
+			exsum += pow(2.718281828459045,touse[g]/smtemperature);
 		}
+		for (let g = 0; g < touse.length; g++) {
+			arrtoreturn[g] = pow(2.718281828459045,touse[g]/smtemperature)/exsum;
+			if (isNaN(arrtoreturn[g])) {
+				arrtoreturn[g] = 1;
+			}
+		}
+		return arrtoreturn;
 	}
-	return arrtoreturn;
+	
+	if (shapeARR.length == 0) {
+		return smin([0],[[ARR]]);
+	}
+	return maketensor(shapeARR.length,shapeARR,smin,[ARR]);
 	
 }
 
@@ -68,39 +78,33 @@ function Bsort(ARR,sourceARR,softmaxb,highlow,byprop,prop) {
 
 function normalize(ARR,scalar) {
 	
-	let arrneg = mult2d([CA(ARR)],[maketensor(1,[ARR.length],-1)])[0];
-	let nv = max(max(ARR),max(arrneg))/scalar;//find maximum value
-	return div2d([CA(ARR)],[maketensor(1,[ARR.length],nv)])[0];
-	
-}
-
-function getrandin(ARR,low,top,checksum) {
-	
-	let counter = 0;
-	for (let g = low; g < top; g++) {
-		if (ARR[g] === checksum) {
-			counter++;
-		}
-	}//how many checksums are there
-	let randranged = rr(1,top-counter-low+1);//get a random number
-	for (let g = low; g < top; g++) {
-		if (ARR[g] !== checksum) {
-			randranged--;
-		}
-		if (randranged == 0) {
-			return g;
-		}
-	}//number in between low and randr
-	
-}
-
-function contains(arr,val) {
-
-	for (let g = 0; g < arr.length; g++) {
-		if (arr[g] == val) {
-			return true;
-		}
+	let shapeARR = shape(ARR);
+	shapeARR = shapeARR.slice(0,shapeARR.length-1);
+	let normin = function(parr,inputs) {
+		let touse = dimen(false,inputs[0],parr);
+		let arrneg = opxd("mult",CA(touse),tensor(-1,[touse.length]));
+		let nv = max(max(touse),max(arrneg))/scalar;//find maximum value
+		return opxd("div",CA(touse),tensor(nv,[touse.length]));
 	}
-	return false;
+	
+	if (shapeARR.length == 0) {
+		return normin([0],[[ARR]]);
+	}
+	return maketensor(shapeARR.length,shapeARR,normin,[ARR]);
+	
+}
+
+function contains(ARR,val) {
+
+	let shapeARR = shape(ARR);
+	let conin = function(parr,inputs) {
+		if (inputs[1] == false) {
+			inputs[1] = (dimen(false,inputs[0],parr)==val);
+		}
+		return 0;
+	}
+	let inarr = [ARR,false];
+	maketensor(shapeARR.length,shapeARR,conin,inarr);
+	return inarr[1];
 	
 }
