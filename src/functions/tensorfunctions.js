@@ -1,4 +1,4 @@
-function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) {
+function maketensor1(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) {
 	
 	let inparr = [];
 	function recurmt(mtdim,mtshape) {
@@ -16,7 +16,7 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 	}
 	
 	function getfill(parr) {
-		if (ifrand == true) {
+		if (ifrand === true) {
 			if (ifroundrand == true) {
 				return rr(randl,randh+1);
 			}
@@ -24,7 +24,7 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 				return random(randl,randh);
 			}
 		}
-		else if (ascending == true) {
+		else if (ascending === true) {
 			return parr[parr.length-1];
 		}
 		else if (typeof fill === 'function') {
