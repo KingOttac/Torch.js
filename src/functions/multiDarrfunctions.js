@@ -14,7 +14,13 @@ function tril(ARR,v) {
 
 function transpose(ARR) {
 	
-	return ARR[0].map((_, colIndex) => ARR.map(row => row[colIndex]));
+	let returntps = tensor(0,[ARR[0].length,ARR.length]);
+	for (let a = 0; a < ARR.length; a++) {
+		for (let b = 0; b < ARR[a].length; b++) {
+			returntps[b][a] = CA([ARR[a][b]])[0];
+		}
+	}
+	return returntps;
 	
 }//switch columns with rows, preserve values
 
@@ -38,15 +44,24 @@ function matrixmult(ARR1,ARR2) {
 	
 }//can also be used with ([vec1],transpose([vec2])) for dot product
 
-function concatenate(ARR) {
+function concatenate(ARR,dims) {
 	
-	let ra = [];
-	for (let g = 0; g < ARR.length; g++) {
-		for (let g1 = 0; g1 < ARR[g].length; g1++) {
-			ra[ra.length] = ARR[g][g1];
-		}
+	if (dims === undefined) {
+		dims = 1;
 	}
-	return ra;
+	let ccatin = function(arr) {
+		let ra = [];
+		for (let g = 0; g < arr.length; g++) {
+			for (let g1 = 0; g1 < arr[g].length; g1++) {
+				ra[ra.length] = arr[g][g1];
+			}
+		}
+		return ra;
+	}
+	for (let a = 0; a < dims; a++) {
+		ARR = ccatin(CA(ARR));
+	}
+	return ARR;
 	
 }//combines rows of 2d array into 1d array
 
