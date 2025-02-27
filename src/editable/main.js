@@ -47,8 +47,8 @@ let scale = 1;//normal dist of activation functions
 //misc
 let textbox;
 let lines;
-let e = 2.718281828459045;
 let pi = 3.14159265358979;
+let INF = 1e+308;
 
 function preload() {
 	//get some file info
