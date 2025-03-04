@@ -1,4 +1,4 @@
-function activate(ARR,type,scale) {
+function activate(ARR) {
 	
 	let shapeARR = shape(ARR);
 	let actfunc = function(parr,inputs) {
@@ -16,7 +16,7 @@ function activate(ARR,type,scale) {
 	
 }
 
-function softmax(ARR,smtemperature) {
+function softmax(ARR) {
 	
 	let shapeARR = shape(ARR);
 	shapeARR = shapeARR.slice(0,shapeARR.length-1);
@@ -76,7 +76,7 @@ function Bsort(ARR,sourceARR,softmaxb,highlow,byprop,prop) {
 	
 }//[0] is decoded value, [1] is strength of that value
 
-function normalize(ARR,scalar) {
+function normalize(ARR) {
 	
 	let shapeARR = shape(ARR);
 	shapeARR = shapeARR.slice(0,shapeARR.length-1);
