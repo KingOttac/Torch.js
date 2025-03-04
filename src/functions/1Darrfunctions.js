@@ -16,7 +16,7 @@ function activate(ARR) {
 	
 }
 
-function softmax(ARR) {
+function softmax(ARR,smtemp) {
 	
 	let shapeARR = shape(ARR);
 	shapeARR = shapeARR.slice(0,shapeARR.length-1);
@@ -25,10 +25,10 @@ function softmax(ARR) {
 		let exsum = 0;
 		let arrtoreturn = [];
 		for (let g = 0; g < touse.length; g++) {
-			exsum += pow(2.718281828459045,touse[g]/smtemperature);
+			exsum += pow(2.718281828459045,touse[g]/smtemp);
 		}
 		for (let g = 0; g < touse.length; g++) {
-			arrtoreturn[g] = pow(2.718281828459045,touse[g]/smtemperature)/exsum;
+			arrtoreturn[g] = pow(2.718281828459045,touse[g]/smtemp)/exsum;
 			if (isNaN(arrtoreturn[g])) {
 				arrtoreturn[g] = 1;
 			}
@@ -76,7 +76,7 @@ function Bsort(ARR,sourceARR,softmaxb,highlow,byprop,prop) {
 	
 }//[0] is decoded value, [1] is strength of that value
 
-function normalize(ARR) {
+function normalize(ARR,scalar) {
 	
 	let shapeARR = shape(ARR);
 	shapeARR = shapeARR.slice(0,shapeARR.length-1);
