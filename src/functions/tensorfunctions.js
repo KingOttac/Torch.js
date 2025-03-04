@@ -105,7 +105,8 @@ function opxd(oper,ARR1,ARR2) {
 			return dimen(false,inputs[0],parr)/dimen(false,inputs[1],parr);
 		}
 	}
-	return maketensor(shapeARR.length,shapeARR,opxdin,[ARR1,ARR2,oper]);
+	ARR1 = maketensor(shapeARR.length,shapeARR,opxdin,[ARR1,ARR2,oper]);
+	return ARR1;
 	
 }//adds two same size arrays
 
