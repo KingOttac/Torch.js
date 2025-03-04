@@ -3,13 +3,13 @@ function activate(ARR,type,scale) {
 	let shapeARR = shape(ARR);
 	let actfunc = function(parr,inputs) {
 		if (type == "sigmoid") {
-			return sigmoid1(dimen(false,inputs[0],parr),1);
+			return sigmoid(dimen(false,inputs[0],parr),scale);
 		}
 		else if (type == "RELU") {
-			return RELU1(dimen(false,inputs[0],parr),scale);
+			return RELU(dimen(false,inputs[0],parr),scale);
 		}
 		else if (type == "GELU") {
-			return GELU1(dimen(false,inputs[0],parr),scale);
+			return GELU(dimen(false,inputs[0],parr),scale);
 		}
 	}
 	return maketensor(shapeARR.length,shapeARR,actfunc,[ARR]);
