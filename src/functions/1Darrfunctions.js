@@ -16,7 +16,7 @@ function activate(ARR) {
 	
 }
 
-function softmax(ARR,smtemp) {
+function softmax(ARR) {
 	
 	let shapeARR = shape(ARR);
 	shapeARR = shapeARR.slice(0,shapeARR.length-1);
@@ -25,10 +25,10 @@ function softmax(ARR,smtemp) {
 		let exsum = 0;
 		let arrtoreturn = [];
 		for (let g = 0; g < touse.length; g++) {
-			exsum += pow(2.718281828459045,touse[g]/smtemp);
+			exsum += pow(2.718281828459045,touse[g]/smtemperature);
 		}
 		for (let g = 0; g < touse.length; g++) {
-			arrtoreturn[g] = pow(2.718281828459045,touse[g]/smtemp)/exsum;
+			arrtoreturn[g] = pow(2.718281828459045,touse[g]/smtemperature)/exsum;
 			if (isNaN(arrtoreturn[g])) {
 				arrtoreturn[g] = 1;
 			}
