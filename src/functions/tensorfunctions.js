@@ -66,7 +66,7 @@ function shapenet(shapeARR,specific,dim,hidlay,fill,ifrand,randl,randh,ifroundra
 function dimen(assign,arr,parr,val) {
 	if (parr.length > 1) {
 		if (assign == true) {
-			arr[parr[0]] = dimen(true,arr[parr[0]],parr.slice(1,parr.length),val);
+			dimen(true,arr[parr[0]],parr.slice(1,parr.length),val);
 		}
 		else {
 			return dimen(false,arr[parr[0]],parr.slice(1,parr.length))
