@@ -1,18 +1,18 @@
 function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) {
 	
-	let inparr = [];
-	function recurmt(mtdim,mtshape) {
-		let ra = [];
-		for (let g = 0; g < mtshape[0]; g++) {
-			inparr[dim-mtdim] = g;
-			if (mtdim > 1) {
-				ra[g] = recurmt(mtdim-1,mtshape.slice(1,mtshape.length));
+	let inparr = [];	
+	function recurmt(parr) {
+		let ra = []
+		if (parr.length > 0) {
+			for (let a = 0; a < parr[0]; a++) {
+				inparr[dim-parr.length] = a;
+				ra[a] = recurmt(parr.slice(1,parr.length));
 			}
-			else {
-				ra[g] = getfill(inparr);
-			}
+			return ra;
 		}
-		return ra;
+		else {
+			return getfill(inparr);
+		}
 	}
 	
 	function getfill(parr) {
@@ -38,7 +38,7 @@ function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) 
 		}
 	}
 	
-	return recurmt(dim,CA(shapeARR));
+	return recurmt(shapeARR);
 	
 }
 
@@ -64,9 +64,10 @@ function shapenet(shapeARR,specific,dim,hidlay,fill,ifrand,randl,randh,ifroundra
 }
 
 function dimen(assign,arr,parr,val) {
-	if (parr.length > 1) {
+	if (parr.length > 0) {
 		if (assign == true) {
-			dimen(true,arr[parr[0]],parr.slice(1,parr.length),val);
+			arr[parr[0]] = dimen(true,arr[parr[0]],parr.slice(1,parr.length),val);
+			return arr;
 		}
 		else {
 			return dimen(false,arr[parr[0]],parr.slice(1,parr.length))
@@ -74,11 +75,10 @@ function dimen(assign,arr,parr,val) {
 	}
 	else {
 		if (assign == true) {
-			arr[parr[0]] = val;
-			return arr;
+			return val;
 		}
 		else {
-			return arr[parr[0]];
+			return arr;
 		}
 	}
 }//different dimensional arrays- assign: bool- t:assign or f:return
@@ -86,27 +86,39 @@ function dimen(assign,arr,parr,val) {
 function opxd(oper,ARR1,ARR2) {
 	
 	let shapeARR = shape(ARR1);
-	if (shapeARR+"" != shape(ARR2)+"") {
+	if (shapeARR.join(",") != shape(ARR2).join(",")) {
 		print("misaligned opxd shapes");
 		exit()
 	}
 	
-	let opxdin = function opfill(parr,inputs) {
-		if (inputs[2] == "add") {
-			return dimen(false,inputs[0],parr)+dimen(false,inputs[1],parr);
+	function opfunc(val1,val2) {
+		if (oper == "add") {
+			return val1+val2;
 		}
-		if (inputs[2] == "sub") {
-			return dimen(false,inputs[0],parr)-dimen(false,inputs[1],parr);
+		if (oper == "sub") {
+			return val1-val2;
 		}
-		if (inputs[2] == "mult") {
-			return dimen(false,inputs[0],parr)*dimen(false,inputs[1],parr);
+		if (oper == "mult") {
+			return val1*val2;
 		}
-		if (inputs[2] == "div") {
-			return dimen(false,inputs[0],parr)/dimen(false,inputs[1],parr);
+		if (oper == "div") {
+			return val1/val2;
 		}
 	}
-	ARR1 = maketensor(shapeARR.length,shapeARR,opxdin,[ARR1,ARR2,oper]);
-	return ARR1;
+	
+	function opxdloop(arr1,arr2,parr) {
+		if (parr.length > 0) {
+			for (let a = 0; a < parr[0]; a++) {
+				arr1[a] = opxdloop(arr1[a],arr2[a],parr.slice(1,parr.length));
+			}
+			return arr1;
+		}
+		else {
+			return opfunc(arr1,arr2);
+		}
+	}
+	
+	return opxdloop(ARR1,ARR2,shapeARR);
 	
 }//adds two same size arrays
 
