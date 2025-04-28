@@ -1,5 +1,13 @@
 function maketensor(dim,shapeARR,fill,ifrand,randl,randh,ifroundrand,ascending) {
-	
+
+	if (shapeARR.length > dim) {
+		shapeARR = shapeARR.slice(0,dim);
+	}
+	else if (shapeARR.length < dim) {
+		for (let a = shapeARR.length; a < dim; a++) {
+			shapeARR[a] = 0;
+		}
+	}
 	let inparr = [];	
 	function recurmt(parr) {
 		let ra = []
