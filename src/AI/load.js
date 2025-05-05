@@ -18,32 +18,6 @@ let costarr = [];
 let scores = [];//generation scores
 let currentbest = 0;
 
-function loadGen() {
-	
-	scores = maketensor(1,[iterations],0);//updated in draw
-	neuronstore = maketensor(2,[iterations,2],[]);
-	for (let a = 0; a < iterations; a++) {
-		neuronstore[a][0] = [];
-		neuronstore[a][1] = [];
-		for (let b = 0; b < inputsize; b++) {
-			neuronstore[a][0][b] = {
-				index:[0,b],
-				value:0
-			}
-		}
-		for (let b = 0; b < outputsize; b++) {
-			neuronstore[a][1][b] = {
-				index:[1,b],
-				weights:[],
-				bias:0,
-				value:0
-			}
-		}
-	}//input and output layer adjust
-	trainGen();
-	
-}
-
 function loadGPT() {
 
 	//attention
