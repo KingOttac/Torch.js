@@ -58,12 +58,12 @@ function linear(ARR,weightsarr,biasesarr) {
 
 }//takes in 1d array and returns one transform with weights from layer + bias
 
-function runlinear(input,qlayers,sorted,allweights,allbiases) {
+function runlinear(input,allweights,allbiases,sorted) {
 
 	let nsra = [];
 	nsra[0] = input;
 	let ra = input;
-	for (let a = 0; a < qlayers; a++) {
+	for (let a = 0; a < allweights.length; a++) {
 		nsra[a+1] = linear(CA(ra),allweights[a],allbiases[a]);
 		ra = activate(nsra[a+1]);
 	}
