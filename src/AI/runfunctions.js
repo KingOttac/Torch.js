@@ -76,3 +76,31 @@ function runlinear(input,allweights,allbiases,sorted) {
 
 }//takes in parameters for layers (corr to weights), if sorted, input 
 //returns an array of [output , each layer unactivated arr]
+
+function runGen(input,net,sorted,actin,outputarr) {
+	
+	if (actin == true) {
+		input = activate(input);
+	}//activate input
+	for (let gg = 0; gg < inputsize; gg++) {
+		net.neurons[0][gg] = input[gg];
+	}//insert input
+	for (let gg = 1; gg < net.neurons.length; gg++) {//layers
+		for (let gg1 = 0; gg1 < net.neurons[gg].length; gg1++) {//neurons in layer
+			net.neurons[gg][gg1] = 0;
+		}
+	}//zero out rest of network
+	for (let gg = 0; gg < net.neurons.length-1; gg++) {//layers
+		net.neurons[gg+1] = activate(linear(net.neurons[gg],net.weights[gg],net.biases[gg]));
+	}//apply weights and biases
+	
+	//returning
+	let returnarr = CA(net.neurons[net.neurons.length-1]);
+	if (sorted == true) {
+		return Bsort(returnarr,outputarr,false);
+	}
+	else {
+		return returnarr;
+	}
+	
+}
