@@ -60,8 +60,6 @@ function loadGen() {
 		}
 	}
 	neuronstore = maketensor(1,[iterations],makenetwork);
-	if (human == false) {
-		trainGen();
-	}
+	trainGen();
 		
 }
