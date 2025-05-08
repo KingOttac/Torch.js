@@ -33,6 +33,7 @@ let epsilon = 0.000001;
 //generative
 let iterations = 10;//models on screen
 let inputbias = 1;//final input bias on input arr
+let topperc = 0.1;//fraction that dont evolve
 let perc = [0.9,0.05,0.05];
 
 //general
