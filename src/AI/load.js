@@ -14,6 +14,11 @@ let weights = [];
 let biases = [];
 let costarr = [];
 
+//generative
+let scores = [];//generation scores
+let currentbest = 0;
+let totalbest = 0;
+
 function loadGPT() {
 
 	//attention
