@@ -80,15 +80,17 @@ function trainGen() {
 	
 	//bests
 	let tsbests = Bsort(CA(scores),maketensor(1,[iterations],0,false,0,0,false,true),false,true);
-	currentbest = tsbests[0][0];
+	let newbest = false;
 	if (tsbests[0][1] > totalbest) {
 		totalbest = tsbests[0][1];
+		newbest = true;
 	}
+	currentbest = tsbests[0][0];
 	
 	//evolve networks (copies to second to take only top half)
 	let final = [];
 	for (let a = 0; a < neuronstore.length; a++) {
-		if (tsbests[0][1] == totalbest) {
+		if (newbest) {
 			final[a] = CA(neuronstore[currentbest]);
 		}
 		else {
