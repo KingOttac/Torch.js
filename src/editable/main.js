@@ -31,10 +31,9 @@ let b2 = 0.999;
 let epsilon = 0.000001;
 
 //generative
-let newlayer = 0.2;//chance of making new layer in gen
-let weightmult = 2;//weights:neurons+biases ratio
-let iterations = 0;//models on screen
-let timealive = 0;//how long each training epoch lasts
+let iterations = 10;//models on screen
+let inputbias = 1;//final input bias on input arr
+let perc = [0.9,0.05,0.05];
 
 //general
 let wi = 1;//weight initialization values
