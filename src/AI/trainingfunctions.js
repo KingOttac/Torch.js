@@ -94,8 +94,11 @@ function trainGen() {
 			final[a] = CA(neuronstore[currentbest]);
 		}
 		else {
-			final[a] = CA(neuronstore[a]);
+			final[a] = CA(neuronstore[tsbests[a][0]]);
 		}
+		if (a < round(topperc*neuronstore.length)) {
+			continue;
+		}//keep top performers
 		
 		//get randoms
 		let randlay = rr(0,final[a].neurons.length-1);
