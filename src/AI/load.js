@@ -43,3 +43,20 @@ function loadlinear() {
 	biases = shapenet([hiddensize,hiddensize,outputsize],false,1,layers,0,true,-wi,wi);//load biases
 
 }
+
+function loadGen() {
+	
+	scores = maketensor(1,[iterations],0);//updated in draw
+	let makenetwork = function(parr,inputs) {
+		return {
+			neurons:[tensor(0,[inputsize]),[0]],
+			weights:shapenet([inputsize,0,1],false,2,0,0),
+			biases:shapenet([inputsize,0,1],false,1,0,0)
+		}
+	}
+	neuronstore = maketensor(1,[iterations],makenetwork);
+	if (human == false) {
+		trainGen();
+	}
+		
+}
