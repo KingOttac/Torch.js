@@ -181,8 +181,8 @@ function concatenate(ARR,dims) {
 	
 }//combines rows of 2d array into 1d array
 
-function CA(ARR,obj) {
-	
-	return ARR.slice(0);
+function CA(ARR) {
+
+	return JSON.parse(JSON.stringify(ARR));;
 	
 }//prevents awful javascript auto-pointers (copy array)
