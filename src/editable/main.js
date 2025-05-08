@@ -103,7 +103,7 @@ function runexample(data,disp==true) {
 //load some data
 		
 	//let netarr = run/model\(data);
-	let totalcost = 0;
+	/*let totalcost = 0;
 	for (let a = 0; a < netarr.length; a++) {
 		if (netarr[a][0] != label) {
 			totalcost += netarr[a][1];
@@ -113,7 +113,7 @@ function runexample(data,disp==true) {
 			totalcost += 1-netarr[a][1];
 			costpertoken[layers][netarr[a][0]] += correctness*(1-netarr[a][1]);
 		}
-	}//costcalc
+	}//costcalc*/
 	/*
  	if (disp == true) {
  		screeninfo(totalcost,label,data,netarr)
