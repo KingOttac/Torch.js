@@ -75,3 +75,71 @@ function backprop(allweights,allbiases,nstore,costpertoken) {
 	return costpertoken;
 	
 }
+
+function trainGen() {
+	
+	//bests
+	let tsbests = Bsort(CA(scores),maketensor(1,[iterations],0,false,0,0,false,true),false,true);
+	currentbest = tsbests[0][0];
+	if (tsbests[0][1] > totalbest) {
+		totalbest = tsbests[0][1];
+	}
+	
+	//evolve networks (copies to second to take only top half)
+	let final = [];
+	for (let a = 0; a < neuronstore.length; a++) {
+		if (tsbests[0][1] == totalbest) {
+			final[a] = CA(neuronstore[currentbest]);
+		}
+		else {
+			final[a] = CA(neuronstore[a]);
+		}
+		
+		//get randoms
+		let randlay = rr(0,final[a].neurons.length-1);
+		let cwei = final[a].weights[randlay];
+		let cbia = final[a].biases[randlay];
+		let randc = random(0,1);
+		if (randc < perc[0]) {
+			randc = "newweight";
+		}
+		else if (randc >= 1-perc[1]-perc[2] && randc < 1-perc[2]) {
+			randc = "newbias";
+		}
+		else {
+			randc = "newneur";
+		}
+		
+		//assign changes
+		switch (randc) {
+			case "newweight":
+				final[a].weights[randlay][rr(0,cwei.length)][rr(0,cwei[0].length)] = random(-wi,wi);
+			break;
+			case "newbias":
+				final[a].biases[randlay][rr(0,cbia.length)] = random(-wi,wi);
+			break;
+			case "newneur":
+				let cnl = final[a].neurons.length-2;
+				if (final[a].neurons[cnl].length == hiddensize || cnl == 0) {
+					final[a].neurons[cnl+2] = tensor(0,[outputsize]);
+					final[a].neurons[cnl+1] = tensor(0,[outputsize]);
+					final[a].weights[cnl+1] = tensor(1,[outputsize,outputsize]);
+					final[a].biases[cnl+1] = tensor(0,[outputsize]);
+				}//new layer
+				else {
+					final[a].neurons[cnl][final[a].neurons[cnl].length] = 0;//neuron
+					final[a].biases[cnl-1][final[a].biases[cnl-1].length] = 0;//bias
+					final[a].weights[cnl][final[a].weights[cnl].length] = tensor(0,[outputsize]);//last weights
+					for (let b = 0; b < final[a].weights[cnl-1].length; b++) {
+						final[a].weights[cnl-1][b][final[a].weights[cnl-1][b].length] = 0;
+					}//prev layer
+				}//add to existing layer
+			break;
+		}
+	}
+	
+	//apply and reset
+	neuronstore = final;
+	scores = maketensor(1,[iterations],0);
+	
+}
