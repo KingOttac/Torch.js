@@ -80,25 +80,18 @@ function trainGen() {
 	
 	//bests
 	let tsbests = Bsort(CA(scores),maketensor(1,[iterations],0,false,0,0,false,true),false,true);
-	let newbest = false;
-	if (tsbests[0][1] > totalbest) {
-		totalbest = tsbests[0][1];
-		newbest = true;
-	}
 	currentbest = tsbests[0][0];
+	totalbest = (tsbests[0][1] > totalbest);
 	
 	//evolve networks (copies to second to take only top half)
 	let final = [];
 	for (let a = 0; a < neuronstore.length; a++) {
-		if (newbest) {
-			final[a] = CA(neuronstore[currentbest]);
+		if (totalbest) {
+			final[a] = CA(neuronstore[tsbests[0][0]]);
 		}
 		else {
 			final[a] = CA(neuronstore[tsbests[a][0]]);
 		}
-		if (a < round(topperc*neuronstore.length)) {
-			continue;
-		}//keep top performers
 		
 		//get randoms
 		let randlay = rr(0,final[a].neurons.length-1);
