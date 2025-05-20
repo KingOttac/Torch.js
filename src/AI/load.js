@@ -17,7 +17,7 @@ let costarr = [];
 //generative
 let scores = [];//generation scores
 let currentbest = 0;
-let totalbest = 0;
+let totalbest = false;
 
 function loadGPT() {
 
