@@ -94,6 +94,17 @@ function normalize(ARR,scalar) {
 	
 }
 
+function splicef(arr,index,far) {
+  
+  if (far == undefined) {
+    far = 1;
+  }
+  let frontarr = arr.slice(0,index);
+  let backarr = arr.slice(index+far,arr.length);
+  return concat(frontarr,backarr);
+  
+}
+
 function contains(ARR,val) {
 
 	let shapeARR = shape(ARR);
