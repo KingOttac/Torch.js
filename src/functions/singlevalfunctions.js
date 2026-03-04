@@ -73,3 +73,9 @@ function positioners(x) {
 	return sin(x/sx);
 	
 }
+
+function timeout(ms) {
+
+	return new Promise(resolve => setTimeout(resolve,ms));
+
+}
