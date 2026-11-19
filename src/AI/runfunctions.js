@@ -5,35 +5,38 @@ function runGPT(input) {
 	neuronstore = maketensor(3,[layers],0);//init
 	for (let ll = 0; ll < layers; ll++) {
 		//multihead self attention
-		let fval = maketensor(3,[heads,learningset,encodesize],0);
-		for (let hh = 0; hh < heads; hh++) {
+		let fval = maketensor(3,[heads,learningset,querykeydim],0);//desired changes arr
+		for (hh = 0; hh < heads; hh++) {
 			let normtensor = tril(maketensor(2,[learningset,learningset],0),-INF);//init- [query][key]
-			for (let b = 0; b < learningset; b++) {
+			for (b = 0; b < learningset; b++) {
+				//dot query with all input based keys
 				let qdot = matrixmult([CA(last[b])],CA(query[ll][hh]));//gets query vec with matrix
-				for (let c = 0; c < learningset; c++) {
+				for (c = 0; c < learningset; c++) {
 					if (normtensor[b][c] == -INF) {
 						break;
 					}//mask rest of row
 					let encoded = add2d([CA(last[c])],[maketensor(1,[encodesize],positioners(c+1))]);//encode position into word vec
 					let kdot = matrixmult(encoded,CA(key[ll][hh]));//gets corresponding key vec with matrix
-					normtensor[b][c] = matrixmult(qdot,transpose(kdot))[0][0]/sqrt(querykeydim);//find vec association and scale (basically dot product)
+					normtensor[b][c] = matrixmult(qdot,transpose(kdot))[0][0]/sqrt(querykeydim);//find vec association and scale (dot product)
 				}
-			}//dot all queries with all input based keys
-			for (let b = 0; b < learningset; b++) {
-				normtensor[b] = softmax(normtensor[b]);//softmax vector associations
-			}//softmax normtensor rows
-			for (let a = 0; a < learningset; a++) {
-				//get vector shift with scaled value vec
-				let curval = matrixmult([CA(last[a])],CA(valuedown[ll][hh]));//valuedown*key encode gives (down: [qkdim])
-				curval = matrixmult(curval,CA(valueup[ll][hh]))[0];//valueup*curval gives (back up to [encode])
-				for (let b = 0; b < learningset; b++) {
-					fval[hh][a] = add2d([CA(fval[hh][a])],mult2d([CA(curval)],maketensor(2,[1,encodesize],normtensor[a][b])))[0];
+
+				//softmax vector associations
+				normtensor[b] = softmax(normtensor[b]);
+
+				//sums desired changes scaled by vec association
+				for (c = 0; c < learningset; c++) {
+					let curval = matrixmult([CA(last[c])],CA(value[ll][hh]))[0];//value*key encode gives (down: [qkdim])
+					fval[hh][b] = add2d([CA(fval[hh][b])],mult2d([CA(curval)],maketensor(2,[1,querykeydim],normtensor[b][c])))[0];
 				}
-			}//update desired changes to last
+			}
 		}//perform attention
-		for (let hh = 0; hh < heads; hh++) {
-			last = add2d(last,fval[hh]);
-		}//edit last
+
+		//add proposed to last
+		let learnout = transpose(fval);//[learningset,heads,querykeydim]
+		for (b = 0; b < learningset; b++) {
+			learnout[b] = concatenate(learnout[b]);//[heads*querykeydim]
+		}
+		last = add2d(CA(last),learnout);
 		
 		//feed forward network
 		for (let hh = 0; hh < learningset; hh++) {
