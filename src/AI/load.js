@@ -24,21 +24,22 @@ function loadGPT() {
 	//attention
 	key = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
 	query = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
-	valuedown = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
-	valueup = maketensor(4,[layers,heads,querykeydim,encodesize],0,true,-wi,wi);
+	value = maketensor(4,[layers,heads,encodesize,querykeydim],0,true,-wi,wi);
 	encoders = maketensor(2,[tokens.length,encodesize],0,true,-wi,wi);
 	
 	//ffn
 	inputsize = encodesize;
 	hiddensize = 4*encodesize;
 	outputsize = encodesize;
-	let shapenetcall = function(parr,inputs) {
-		return shapenet([inputsize,hiddensize,outputsize],false,inputs[0],ffnlayers,0,true,-wi,wi);
+	weights = maketensor(1,[layers]);
+	biases = maketensor(1,[layers]);
+	for (a = 0; a < layers; a++) {
+		weights[a] = shapenet([inputsize,hiddensize,outputsize],false,2,ffnlayers,0,true,-wi,wi);//load weights
+		biases[a] = shapenet([hiddensize,hiddensize,outputsize],false,1,ffnlayers,0,true,-wi,wi);//load biases
 	}
-	weights = maketensor(1,[layers],shapenetcall,[2]);
-	biases = maketensor(1,[layers],shapenetcall,[1]);
-
-	params = [key,query,valuedown,valueup,weights,biases,encoders];
+	
+	//whole set for easy access
+	params = [key,query,value,weights,biases,encoders];
 	
 }
 
