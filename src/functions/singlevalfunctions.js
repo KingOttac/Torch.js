@@ -44,10 +44,10 @@ function getfuncderiv(input,scl) {
 	}//back compat
 		
 	if (type == "sigmoid") {
-		return (scl*pow(e,-1*scl*input))/pow(1+pow(e,-1*scl*input),2);
+		return scl*sigmoid(input)*(1-sigmoid(input));
 	}
 	else if (type == "RELU") {
-		return scl;
+		return 1;
 	}
 	else if (type == "GELU") {
 		let ndx = pow(e,1.702*input);
