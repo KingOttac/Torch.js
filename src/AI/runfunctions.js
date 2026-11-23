@@ -53,8 +53,8 @@ function runGPT(input) {
 function linear(ARR,weightsarr,biasesarr) {
 
 	let returnarr = matrixmult([ARR],weightsarr)[0];
-	if (biasesarr !== undefined) {
-		returnarr = add2d([returnarr],[biasesarr])[0];
+	if (biasesarr != false && biasesarr !== undefined) {
+		returnarr = opxd("add",returnarr,biasesarr);
 	}
 
 	return returnarr;
@@ -63,12 +63,14 @@ function linear(ARR,weightsarr,biasesarr) {
 
 function runlinear(input,allweights,allbiases,sorted) {
 
-	let nsra = [];
-	nsra[0] = input;
-	let ra = input;
+	let nsra = [CA(input)];
+	let ra = CA(input);
+	if (!Array.isArray(allbiases)) {
+	    allbiases = tensor(false,[allweights.length]);
+	}
 	for (let a = 0; a < allweights.length; a++) {
 		nsra[a+1] = linear(CA(ra),allweights[a],allbiases[a]);
-		ra = activate(nsra[a+1]);
+		ra = activate(CA(nsra[a+1]));
 	}
 	if (sorted == true) {
 		return [Bsort(CA(ra),outputarr),nsra];
@@ -77,7 +79,7 @@ function runlinear(input,allweights,allbiases,sorted) {
 		return [CA(ra),nsra];
 	}
 
-}//takes in parameters for layers (corr to weights), if sorted, input 
+}//takes in parameters for layers (corr to weights), if sorted, input
 //returns an array of [output , each layer unactivated arr]
 
 function runGen(input,net,sorted,actin,outputarr) {
